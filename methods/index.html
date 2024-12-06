@@ -3,160 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bypass Methods</title>
+    <title>Bypass methods</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            height: 100vh;
-        }
-        header {
-            width: 100%;
-            padding: 20px;
-            background-color: #007BFF;
-            color: white;
+            font-family: Arial, sans-serif;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            margin: 0;
-            font-size: 24px;
         }
         .search-bar {
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-        .search-bar input {
-            width: 50%;
-            max-width: 500px;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px;
+            width: 50%;
         }
-        .search-bar button {
+        .search-bar input {
+            width: 100%;
             padding: 10px;
-            background-color: #007BFF;
-            color: white;
             border: none;
             border-radius: 5px;
+        }
+        .search-bar input:focus {
+            outline: none;
+        }
+        .uninstall-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: #fff;
             cursor: pointer;
-            font-size: 16px;
-            margin-left: 10px;
-            transition: background-color 0.3s;
         }
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
-        .uninstall-container {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .uninstall-button:hover {
+            background-color: #3e8e41;
         }
         .modal {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 1;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
+            background-color: rgba(0, 0, 0, 0.4);
         }
         .modal-content {
-            background-color: white;
+            background-color: #fefefe;
+            margin: 15% auto;
             padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            width: 400px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid #888;
+            width: 80%;
         }
         .modal-content input {
             width: 100%;
             padding: 10px;
-            margin-bottom: 15px;
+            margin: 10px 0;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
         }
         .modal-content button {
-            background-color: #28a745;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
         }
         .modal-content button:hover {
-            background-color: #218838;
+            background-color: #3e8e41;
         }
-        footer {
-            margin-top: auto;
-            padding: 10px;
-            background-color: #f1f1f1;
-            text-align: center;
+        .confirmation-page {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
             width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .confirmation-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Bypass Methods</h1>
-    </header>
+    <h1>Bypass methods</h1>
     <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search for cheat methods.">
-        <button id="searchButton">Search</button>
+        <input type="search" placeholder="Search for cheat methods.">
     </div>
-    <div class="uninstall-container">
-        <button id="uninstallButton">Uninstall Method</button>
-    </div>
-    <div class="modal" id="modal">
-        <div class="modal-content" id="modalContent">
-            <h2>Enter Chrome Extension ID</h2>
-            <input type="text" id="extensionIdInput" placeholder="Extension ID">
-            <button id="submitExtensionId">Submit</button>
+    <button class="uninstall-button" onclick="openModal()">Uninstall method</button>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Enter Chrome extension ID</h2>
+            <input id="extension-id" type="text">
+            <button onclick="checkExtensionId()">Next</button>
         </div>
     </div>
-    <footer>
-        <p>&copy; 2023 Bypass Methods. All rights reserved.</p>
-    </footer>
+    <div id="confirmation" class="confirmation-page">
+        <div class="confirmation-content">
+            <h2 id="extension-name"></h2>
+            <p>Press 6 on your keyboard to uninstall.</p>
+        </div>
+    </div>
+
     <script>
-        const uninstallButton = document.getElementById('uninstallButton');
-        const modal = document.getElementById('modal');
-        const submitExtensionId = document.getElementById('submitExtensionId');
-        const extensionIdInput = document.getElementById('extensionIdInput');
-        uninstallButton.addEventListener('click', () => {
-            modal.style.display = 'flex';
-        });
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        async function uninstallExtension(extensionId) {
-            if (!extensionId) {
-                alert('Please provide a valid extension ID.');
-                return;
-            }
-            try {
-                await chrome.management.uninstall(extensionId, { showConfirmDialog: true });
-                alert(`Extension with ID ${extensionId} has been uninstalled successfully.`);
-            } catch (error) {
-                alert(`Failed to uninstall extension. Error: ${error.message}`);
-            }
+        function openModal() {
+            document.getElementById("modal").style.display = "block";
         }
-        submitExtensionId.addEventListener('click', () => {
-            const extensionId = extensionIdInput.value.trim();
-            uninstallExtension(extensionId);
-            modal.style.display = 'none';
-        });
+
+        function checkExtensionId() {
+            var extensionId = document.getElementById("extension-id").value;
+            // Mock implementation: assume the extension name is "Extension 123"
+            var extensionName = "Extension 123";
+            document.getElementById("extension-name").innerHTML = extensionName;
+            document.getElementById("modal").style.display = "none";
+            document.getElementById("confirmation").style.display = "block";
+            document.addEventListener("keydown", function(event) {
+                if (event.key === "6") {
+                    // Mock implementation: refresh the page
+                    location.reload();
+                }
+            });
+        }
     </script>
 </body>
 </html>
