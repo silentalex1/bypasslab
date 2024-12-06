@@ -3,135 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bypass methods</title>
+    <title>Bypass Methods</title>
     <style>
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            text-align: center;
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
-        .search-bar {
+        header {
             position: absolute;
             top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 50%;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+        .search-bar {
+            margin-top: 60px;
         }
         .search-bar input {
-            width: 100%;
+            width: 400px;
             padding: 10px;
-            border: none;
-            border-radius: 5px;
+            font-size: 1rem;
+            border: 2px solid #555;
+            border-radius: 4px;
+            background-color: #333;
+            color: #f0f0f0;
         }
-        .search-bar input:focus {
-            outline: none;
-        }
-        .uninstall-button {
+        .action-button {
             position: absolute;
             top: 20px;
             right: 20px;
             padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #ff4444;
+            color: #f0f0f0;
             border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: #fff;
+            border-radius: 4px;
             cursor: pointer;
         }
-        .uninstall-button:hover {
-            background-color: #3e8e41;
+        .action-button:hover {
+            background-color: #ff2222;
         }
         .modal {
             display: none;
             position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #222;
             padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
+            border: 2px solid #555;
+            border-radius: 8px;
+            width: 300px;
         }
-        .modal-content input {
+        .modal h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .modal input {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
+            padding: 8px;
+            font-size: 1rem;
+            border: 2px solid #555;
+            border-radius: 4px;
+            background-color: #333;
+            color: #f0f0f0;
+            margin-bottom: 10px;
         }
-        .modal-content button {
-            padding: 10px 20px;
+        .modal button {
+            width: 100%;
+            padding: 8px;
+            font-size: 1rem;
+            background-color: #444;
+            color: #f0f0f0;
             border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: #fff;
+            border-radius: 4px;
             cursor: pointer;
         }
-        .modal-content button:hover {
-            background-color: #3e8e41;
-        }
-        .confirmation-page {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        .confirmation-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
+        .modal button:hover {
+            background-color: #555;
         }
     </style>
 </head>
 <body>
-    <h1>Bypass methods</h1>
+    <header>
+        <h1>Bypass Methods</h1>
+    </header>
     <div class="search-bar">
-        <input type="search" placeholder="Search for cheat methods.">
+        <input type="text" placeholder="Search for cheat methods.">
     </div>
-    <button class="uninstall-button" onclick="openModal()">Uninstall method</button>
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h2>Enter Chrome extension ID</h2>
-            <input id="extension-id" type="text">
-            <button onclick="checkExtensionId()">Next</button>
-        </div>
+    <button class="action-button" onclick="openModal()">Uninstall Method</button>
+    <div class="modal" id="uninstallModal">
+        <h2>Enter Chrome Extension ID</h2>
+        <input type="text" id="extensionId" placeholder="Extension ID">
+        <button onclick="processExtensionId()">Submit</button>
     </div>
-    <div id="confirmation" class="confirmation-page">
-        <div class="confirmation-content">
-            <h2 id="extension-name"></h2>
-            <p>Press 6 on your keyboard to uninstall.</p>
-        </div>
-    </div>
-
     <script>
+        const modal = document.getElementById('uninstallModal');
+        const extensionIdInput = document.getElementById('extensionId');
+
         function openModal() {
-            document.getElementById("modal").style.display = "block";
+            modal.style.display = 'block';
         }
 
-        function checkExtensionId() {
-            var extensionId = document.getElementById("extension-id").value;
-            // Mock implementation: assume the extension name is "Extension 123"
-            var extensionName = "Extension 123";
-            document.getElementById("extension-name").innerHTML = extensionName;
-            document.getElementById("modal").style.display = "none";
-            document.getElementById("confirmation").style.display = "block";
-            document.addEventListener("keydown", function(event) {
-                if (event.key === "6") {
-                    // Mock implementation: refresh the page
-                    location.reload();
-                }
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        function processExtensionId() {
+            const extensionId = extensionIdInput.value;
+            if (!extensionId) return;
+
+            fetch(`chrome-extension://${extensionId}/manifest.json`).then(response => {
+                if (!response.ok) throw new Error('Extension not found');
+                return response.json();
+            }).then(manifest => {
+                modal.innerHTML = `<h2>${manifest.name}</h2><p>Press 6 on your keyboard to uninstall.</p>`;
+                document.addEventListener('keydown', (event) => {
+                    if (event.key === '6') {
+                        uninstallExtension(extensionId);
+                    }
+                });
+            }).catch(() => {
+                modal.innerHTML = `<h2>Error</h2><p>Extension not found.</p>`;
+            });
+        }
+
+        function uninstallExtension(extensionId) {
+            chrome.management.uninstall(extensionId, () => {
+                location.reload();
             });
         }
     </script>
