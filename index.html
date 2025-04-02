@@ -1,1 +1,251 @@
-being reworked.
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LinkLeap - Skip Ads, Jump to Content</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f1f1;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2a2a72, #0099cc);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            font-weight: bold;
+        }
+
+        header p {
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+
+        header nav ul {
+            list-style-type: none;
+            margin-top: 20px;
+        }
+
+        header nav ul li {
+            display: inline;
+            margin-right: 25px;
+        }
+
+        header nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        header nav ul li a:hover {
+            color: #ff8c00;
+        }
+
+        .hero {
+            background-image: url('https://via.placeholder.com/1600x800'); /* Replace with a relevant image */
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .hero h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .cta-btn {
+            background-color: #ff8c00;
+            padding: 20px 40px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.3em;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .cta-btn:hover {
+            background-color: #e07b00;
+        }
+
+        .section {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        .features ul {
+            list-style-type: none;
+            margin-top: 30px;
+            font-size: 1.2em;
+        }
+
+        .features ul li {
+            margin-bottom: 15px;
+        }
+
+        .download a {
+            background-color: #0066cc;
+            padding: 15px 30px;
+            color: white;
+            font-size: 1.3em;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .download a:hover {
+            background-color: #005bb5;
+        }
+
+        footer {
+            background-color: #2a2a72;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .footer-logo {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .footer-logo span {
+            color: #ff8c00;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ff8c00;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .cta-btn {
+                padding: 15px 30px;
+                font-size: 1.2em;
+            }
+
+            .section h2 {
+                font-size: 2em;
+            }
+
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .footer-logo {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>LinkLeap</h1>
+            <p>Skip the Ads, Jump to Content</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Enjoy Seamless Content Access - Skip the Ads Instantly!</h2>
+        <p>Download the LinkLeap Chrome Extension and unlock a faster, ad-free browsing experience.</p>
+        <a href="#download" class="cta-btn">Install Extension</a>
+    </section>
+
+    <section id="how-it-works" class="section">
+        <h2>How It Works</h2>
+        <p>LinkLeap automatically detects ad redirects and sends you directly to your content without waiting.</p>
+        <ul>
+            <li>Detects and bypasses ad platforms like Linkvertise and Lootlinks.</li>
+            <li>Fast and efficient redirection process.</li>
+            <li>Simple to use and lightweight on your browser.</li>
+        </ul>
+    </section>
+
+    <section id="features" class="section features">
+        <h2>Features</h2>
+        <ul>
+            <li>Supports multiple ad platforms for wide compatibility.</li>
+            <li>Fast, secure, and optimized browsing experience.</li>
+            <li>Clean and easy-to-use interface.</li>
+            <li>Completely free to use with no hidden costs.</li>
+        </ul>
+    </section>
+
+    <section id="download" class="section download">
+        <h2>Get the Extension Now</h2>
+        <p>Download LinkLeap and enjoy ad-free browsing today!</p>
+        <a href="https://chrome.google.com/webstore" class="cta-btn">Download on Chrome Web Store</a>
+    </section>
+
+    <footer>
+        <div class="footer-logo">
+            LinkLeap <span>™</span>
+        </div>
+        <div class="footer-links">
+            <a href="#privacy-policy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <p>&copy; 2025 LinkLeap. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>
