@@ -5,40 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chrome Extensions Showcase</title>
     <style>
-        * {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-        body {background:#f5faff;color:#1a2b4c;line-height:1.6;overflow-x:hidden;}
-        .container {max-width:1300px;margin:0 auto;padding:0 30px;}
-        nav {background:linear-gradient(135deg,#007bff,#00b4ff);padding:1.5rem 0;position:sticky;top:0;z-index:100;box-shadow:0 4px 15px rgba(0,123,255,0.2);}
+        * {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+        body {background:#0a192f;color:#ccd6f6;line-height:1.6;overflow-x:hidden;}
+        .container {max-width:1200px;margin:0 auto;padding:0 20px;}
+        
+        nav {background:#112240;padding:1.2rem 0;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,123,255,0.3);}
         nav .container {display:flex;justify-content:space-between;align-items:center;}
-        nav .logo {font-size:1.8rem;font-weight:600;color:white;}
+        nav .logo {font-size:1.8rem;font-weight:700;color:#64ffda;letter-spacing:1px;}
         nav ul {display:flex;list-style:none;}
-        nav ul li {margin-left:2rem;}
-        nav ul li a {color:white;text-decoration:none;font-weight:500;padding:8px 16px;border-radius:25px;transition:all 0.3s ease;}
-        nav ul li a:hover {background:white;color:#007bff;transform:scale(1.05);}
-        header {background:linear-gradient(135deg,#007bff,#00b4ff);color:white;padding:4rem 0;text-align:center;position:relative;overflow:hidden;}
-        header h1 {font-size:3rem;margin-bottom:1rem;font-weight:700;letter-spacing:1px;}
-        header p {font-size:1.2rem;opacity:0.9;}
-        .showcase {padding:6rem 0;text-align:center;background:#f5faff;}
-        .showcase h2 {font-size:2.5rem;color:#007bff;margin-bottom:3rem;}
-        .extension-slider {position:relative;height:350px;overflow:hidden;margin:2rem auto;width:80%;background:linear-gradient(135deg,#ffffff,#f0f8ff);border-radius:20px;box-shadow:0 10px 30px rgba(0,123,255,0.1);border:1px solid rgba(0,123,255,0.1);}
-        .extension {position:absolute;width:340px;padding:2.5rem;background:white;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.05);animation:slide 12s infinite ease-in-out;transform:translateX(-50%);}
-        .extension:nth-child(1) {animation-delay:0s;}
-        .extension:nth-child(2) {animation-delay:4s;}
-        .extension:nth-child(3) {animation-delay:8s;}
-        @keyframes slide {0%{left:-50%;opacity:0;transform:translateX(0) scale(0.95);}10%{left:50%;opacity:1;transform:translateX(-50%) scale(1);}30%{left:50%;opacity:1;transform:translateX(-50%) scale(1);}40%{left:150%;opacity:0;transform:translateX(-100%) scale(0.95);}100%{left:150%;opacity:0;}}
-        .extension h3 {color:#007bff;font-size:1.8rem;margin-bottom:1.2rem;font-weight:600;}
-        .extension p {color:#666;font-size:1.1rem;margin-bottom:1.5rem;}
+        nav ul li {margin-left:1.5rem;}
+        nav ul li a {color:#ccd6f6;text-decoration:none;font-weight:500;padding:10px 20px;border-radius:25px;transition:all 0.3s ease;}
+        nav ul li a:hover {background:#64ffda;color:#0a192f;transform:scale(1.1);}
+        
+        header {background:linear-gradient(135deg,#112240,#0a192f);color:#64ffda;padding:5rem 0;text-align:center;position:relative;}
+        header h1 {font-size:3.5rem;margin-bottom:1rem;font-weight:700;letter-spacing:2px;}
+        header p {font-size:1.3rem;opacity:0.9;}
+        
+        .showcase {padding:6rem 0;text-align:center;background:#112240;}
+        .showcase h2 {font-size:2.5rem;color:#64ffda;margin-bottom:3rem;}
+        
+        .extension-slider {position:relative;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+        .extension {width:350px;padding:2rem;background:#0a192f;border-radius:15px;box-shadow:0 5px 20px rgba(0,255,180,0.1);transition:all 0.3s ease-in-out;}
+        .extension:hover {transform:scale(1.05);box-shadow:0 10px 30px rgba(0,255,180,0.2);}
+        .extension h3 {color:#64ffda;font-size:1.8rem;margin-bottom:1rem;font-weight:600;}
+        .extension p {color:#a8b2d1;font-size:1.1rem;margin-bottom:1.5rem;}
+        
         .btn {display:inline-block;padding:12px 25px;margin:0 8px;text-decoration:none;border-radius:30px;font-weight:500;transition:all 0.3s ease;cursor:pointer;}
-        .btn-download {background:linear-gradient(135deg,#007bff,#00b4ff);color:white;border:none;}
-        .btn-store {background:white;color:#007bff;border:2px solid #007bff;}
-        .btn:hover {transform:translateY(-4px) scale(1.05);box-shadow:0 5px 15px rgba(0,123,255,0.3);}
-        .btn-download:hover {background:linear-gradient(135deg,#0056b3,#0086cc);}
-        .btn-store:hover {background:#007bff;color:white;}
-        footer {text-align:center;padding:3rem 0;background:linear-gradient(135deg,#f0f8ff,#ffffff);position:relative;}
-        footer p {color:#666;font-size:1.1rem;}
-        .wave {position:absolute;width:100%;height:150px;opacity:0.1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23007bff' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");background-size:cover;}
-        .wave-top {top:0;transform:translateY(-70%);}
-        .wave-bottom {bottom:0;transform:translateY(70%);}
+        .btn-download {background:#64ffda;color:#0a192f;border:none;}
+        .btn-store {background:transparent;color:#64ffda;border:2px solid #64ffda;}
+        .btn:hover {transform:translateY(-4px) scale(1.05);box-shadow:0 5px 15px rgba(0,255,180,0.3);}
+        .btn-download:hover {background:#00a78e;}
+        .btn-store:hover {background:#64ffda;color:#0a192f;}
+        
+        footer {text-align:center;padding:3rem 0;background:#0a192f;color:#a8b2d1;}
+        footer p {font-size:1.1rem;}
     </style>
 </head>
 <body>
@@ -53,13 +53,14 @@
             </ul>
         </div>
     </nav>
-    <div class="wave wave-top"></div>
+    
     <header>
         <div class="container">
-            <h1>Premium Chrome Extensions</h1>
-            <p>Elevate your browsing experience with our sleek tools</p>
+            <h1>Chrome Extensions</h1>
+            <p>Start using our upcoming chrome extensions today.</p>
         </div>
     </header>
+    
     <section class="showcase">
         <div class="container">
             <h2>Our Extensions</h2>
@@ -85,11 +86,11 @@
             </div>
         </div>
     </section>
+    
     <footer>
         <div class="container">
-            <p>© 2025 Premium Extensions. Crafted with perfection.</p>
+            <p>© 2025 Useful Chrome Extensions. Made with Smart Script Studios.</p>
         </div>
     </footer>
-    <div class="wave wave-bottom"></div>
 </body>
 </html>
