@@ -3,51 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.pyodide.dev; style-src 'self' 'unsafe-inline';">
     <title>Bypass Methods Testing</title>
     <style>
         :root {
-            --primary: #4c6ef5;
-            --secondary: #3b5bdb;
-            --dark: #212529;
+            --primary: #007bff;
+            --secondary: #0056b3;
+            --dark: #1a1a1a;
             --light: #f8f9fa;
-            --accent: #e64980;
-            --success: #37b24d;
-            --warning: #f59f00;
-            --danger: #e03131;
+            --accent: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         body {
-            background-color: #111;
+            background-color: var(--dark);
             color: #fff;
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background-image: linear-gradient(to bottom right, #0f1642, #1e1e2d);
-            background-attachment: fixed;
+            background-image: linear-gradient(to bottom, #1e1e2d, #0f1642);
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 15px;
         }
         
         header {
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         nav {
@@ -57,18 +55,14 @@
         }
         
         .logo {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(76, 110, 245, 0.3);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
         }
         
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             list-style: none;
         }
         
@@ -76,141 +70,104 @@
             color: #fff;
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
             padding: 5px 0;
+            transition: color 0.3s ease;
         }
         
-        .nav-links a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover:after {
-            width: 100%;
+        .nav-links a:hover {
+            color: var(--primary);
         }
         
         .hero {
-            padding: 100px 0;
+            padding: 80px 0;
             text-align: center;
         }
         
         .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, #ccc);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .hero p {
-            font-size: 18px;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            color: #adb5bd;
-        }
-        
-        .methods-section {
-            padding: 50px 0;
-        }
-        
-        .methods-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .method-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .method-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: rgba(76, 110, 245, 0.5);
-        }
-        
-        .method-content {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .method-content h3 {
-            font-size: 22px;
+            font-size: 2.5rem;
             margin-bottom: 15px;
             color: #fff;
         }
         
-        .method-content p {
-            font-size: 15px;
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
             color: #adb5bd;
-            margin-bottom: 20px;
-            flex-grow: 1;
+        }
+        
+        .methods-section {
+            padding: 40px 0;
+        }
+        
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .method-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .method-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .method-content p {
+            font-size: 0.95rem;
+            color: #adb5bd;
+            margin-bottom: 15px;
         }
         
         .method-btn {
             display: inline-block;
-            padding: 12px 24px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            padding: 10px 20px;
+            background: var(--primary);
             color: white;
             border-radius: 5px;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            transition: background 0.3s ease;
             border: none;
             cursor: pointer;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(76, 110, 245, 0.3);
         }
         
         .method-btn:hover {
-            background: linear-gradient(to right, var(--secondary), var(--primary));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(76, 110, 245, 0.4);
+            background: var(--secondary);
         }
         
         .section-title {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         
         .section-title h2 {
-            font-size: 36px;
-            margin-bottom: 15px;
-            background: linear-gradient(to right, #fff, #adb5bd);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
+            color: #fff;
         }
         
         .section-title p {
-            font-size: 18px;
+            font-size: 1rem;
             color: #adb5bd;
-            max-width: 700px;
-            margin: 0 auto;
+            max-width: 600px;
+            margin: 10px auto;
         }
         
         footer {
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 30px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px 0;
             margin-top: auto;
         }
         
@@ -223,13 +180,12 @@
         .footer-links {
             list-style: none;
             display: flex;
-            gap: 20px;
+            gap: 15px;
         }
         
         .footer-links a {
             color: #adb5bd;
             text-decoration: none;
-            transition: color 0.3s ease;
         }
         
         .footer-links a:hover {
@@ -247,40 +203,35 @@
             right: 0;
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
             transition: opacity 0.3s ease;
         }
         
         .modal-overlay.active {
+            display: flex;
             opacity: 1;
-            pointer-events: all;
         }
         
         .modal-content {
             background-color: #1e1e2d;
-            border-radius: 10px;
+            border-radius: 8px;
             width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
+            max-width: 700px;
+            max-height: 80vh;
             overflow-y: auto;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            position: relative;
+            padding: 20px;
         }
         
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 24px;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
             color: #adb5bd;
             cursor: pointer;
-            transition: color 0.3s ease;
         }
         
         .close-modal:hover {
@@ -289,27 +240,30 @@
         
         .code-block {
             background-color: #2d2d3d;
-            padding: 15px;
+            padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
-            margin: 20px 0;
         }
         
         .code-block pre {
             color: #e9ecef;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 14px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
         }
         
         .vm-window {
             width: 90%;
-            max-width: 900px;
-            background-color: #f0f0f0;
+            max-width: 800px;
+            background-color: #fff;
             border-radius: 5px;
             overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: none;
+            z-index: 1000;
         }
         
         .vm-window.active {
@@ -317,8 +271,8 @@
         }
         
         .vm-titlebar {
-            background: linear-gradient(to right, #0078d7, #0063b1);
-            padding: 10px 15px;
+            background: #0078d7;
+            padding: 8px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -326,18 +280,18 @@
         }
         
         .vm-title {
-            font-size: 14px;
+            font-size: 0.9rem;
             font-weight: 500;
         }
         
         .vm-controls {
             display: flex;
-            gap: 15px;
+            gap: 10px;
         }
         
         .vm-control {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             cursor: pointer;
         }
@@ -355,9 +309,7 @@
         }
         
         .vm-content {
-            height: 500px;
-            overflow: hidden;
-            position: relative;
+            height: 400px;
             background-color: white;
             color: black;
         }
@@ -370,10 +322,10 @@
         
         .vm-toolbar {
             background-color: #f5f5f5;
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid #ddd;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
         }
         
@@ -381,19 +333,19 @@
             flex-grow: 1;
             background-color: white;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 6px 10px;
-            font-size: 12px;
+            border-radius: 4px;
+            padding: 5px 8px;
+            font-size: 0.8rem;
             color: #333;
         }
         
         .vm-browser-btn {
             background-color: #f0f0f0;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 5px 10px;
+            border-radius: 4px;
+            padding: 4px 8px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 0.8rem;
         }
         
         .vm-browser-btn:hover {
@@ -402,7 +354,7 @@
         
         .vm-browser-content {
             flex-grow: 1;
-            padding: 15px;
+            padding: 12px;
             overflow-y: auto;
         }
         
@@ -417,17 +369,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 10;
         }
         
         .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         @keyframes spin {
@@ -435,23 +386,24 @@
             100% { transform: rotate(360deg); }
         }
         
-        .status-bar {
+        .mobile-notification {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(220, 53, 69, 0.9);
             color: white;
             padding: 10px 20px;
             border-radius: 5px;
-            display: none;
+            font-size: 0.9rem;
             z-index: 1001;
+            display: none;
+            animation: fadeOut 1s forwards;
+            animation-delay: 5s;
         }
         
-        .status-bar.active {
+        .mobile-notification.active {
             display: block;
-            animation: fadeOut 3s forwards;
-            animation-delay: 2s;
         }
         
         @keyframes fadeOut {
@@ -459,44 +411,27 @@
             to { opacity: 0; }
         }
         
-        .method-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: rgba(76, 110, 245, 0.1);
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .method-icon svg {
-            width: 30px;
-            height: 30px;
-            color: var(--primary);
-        }
-        
         .method-tag {
             display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
             font-weight: 500;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .tag-enhanced {
-            background-color: rgba(230, 73, 128, 0.1);
+            background-color: rgba(220, 53, 69, 0.1);
             color: var(--accent);
         }
         
         .tag-basic {
-            background-color: rgba(76, 110, 245, 0.1);
+            background-color: rgba(0, 123, 255, 0.1);
             color: var(--primary);
         }
         
         .tag-experimental {
-            background-color: rgba(245, 159, 0, 0.1);
+            background-color: rgba(255, 193, 7, 0.1);
             color: var(--warning);
         }
         
@@ -510,16 +445,16 @@
             }
             
             .hero h1 {
-                font-size: 36px;
+                font-size: 1.8rem;
             }
             
             .hero p {
-                font-size: 16px;
+                font-size: 1rem;
             }
             
             .footer-content {
                 flex-direction: column;
-                gap: 20px;
+                gap: 15px;
             }
         }
     </style>
@@ -538,10 +473,14 @@
         </div>
     </header>
 
+    <div class="mobile-notification" id="mobile-notification">
+        User has been detected to be on mobile, these methods may be a bit buggy.
+    </div>
+
     <section class="hero">
         <div class="container">
-            <h1>Testing Bypass Methods</h1>
-            <p>A collection of educational techniques to understand network security concepts and filtering mechanisms.</p>
+            <h1>Test Network Bypass Methods</h1>
+            <p>Explore educational techniques to understand network security and filtering mechanisms in a safe environment.</p>
         </div>
     </section>
 
@@ -549,45 +488,30 @@
         <div class="container">
             <div class="section-title">
                 <h2>Available Methods</h2>
-                <p>Click on any method to test its functionality in this controlled environment.</p>
+                <p>Click a method to test it in this controlled environment.</p>
             </div>
             <div class="methods-grid">
                 <div class="method-card">
                     <div class="method-content">
                         <span class="method-tag tag-enhanced">Enhanced</span>
-                        <div class="method-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                        </div>
                         <h3>VM Method</h3>
-                        <p>This method simulates opening a virtual machine with a browser window to demonstrate a bypass technique.</p>
+                        <p>Simulates a virtual machine with a browser to demonstrate bypass techniques.</p>
                         <button class="method-btn" id="vm-method-btn">Run VM Method</button>
                     </div>
                 </div>
                 <div class="method-card">
                     <div class="method-content">
                         <span class="method-tag tag-basic">Basic</span>
-                        <div class="method-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                        </div>
                         <h3>Redirect Method</h3>
-                        <p>Demonstrates how a p*oxy redirection would function in a controlled environment.</p>
-                        <button class="method-btn" id="p*oxy-method-btn">Run P*oxy Method</button>
+                        <p>Shows how a redirection functions in a test environment.</p>
+                        <button class="method-btn" id="p*oxy-method-btn">Run Redirect Method</button>
                     </div>
                 </div>
                 <div class="method-card">
                     <div class="method-content">
                         <span class="method-tag tag-experimental">Experimental</span>
-                        <div class="method-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                            </svg>
-                        </div>
                         <h3>DNS Tunneling</h3>
-                        <p>Simulates how DNS tunneling works in a controlled testing environment.</p>
+                        <p>Simulates DNS tunneling in a controlled setting.</p>
                         <button class="method-btn" id="dns-method-btn">Run DNS Method</button>
                     </div>
                 </div>
@@ -605,7 +529,7 @@
 
     <div class="vm-window" id="vm-window">
         <div class="vm-titlebar">
-            <div class="vm-title">Windows Explorer</div>
+            <div class="vm-title">Virtual Environment</div>
             <div class="vm-controls">
                 <div class="vm-control minimize"></div>
                 <div class="vm-control maximize"></div>
@@ -623,15 +547,15 @@
                 </div>
                 <div class="vm-browser-content">
                     <h2>Secure Access Granted</h2>
-                    <p>The VM Method has successfully established a connection.</p>
-                    <p>This simulated environment demonstrates how a virtual machine might be used to bypass network restrictions for educational purposes.</p>
+                    <p>The VM Method has established a connection.</p>
+                    <p>This simulation shows how a virtual machine can bypass network restrictions for educational purposes.</p>
                     <ul>
-                        <li>Connection type: Tunneled</li>
-                        <li>Protocol: HTTPS over custom port</li>
+                        <li>Connection: Tunneled</li>
+                        <li>Protocol: HTTPS</li>
                         <li>Status: Connected</li>
                     </ul>
-                    <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #4c6ef5; border-radius: 4px;">
-                        <p><strong>Note:</strong> This is a simulation for educational purposes only. No actual bypass has occurred.</p>
+                    <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border-left: 3px solid #007bff; border-radius: 3px;">
+                        <p><strong>Note:</strong> This is a simulation for educational purposes only.</p>
                     </div>
                 </div>
             </div>
@@ -642,253 +566,197 @@
         </div>
     </div>
 
-    <div class="status-bar" id="status-bar"></div>
-
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="copyright">© 2025 BypassTester - For Educational Purposes Only</div>
+                <div class="copyright">© 2025 BypassTester - Educational Use Only</div>
                 <ul class="footer-links">
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
             </div>
         </div>
     </footer>
 
+    <script src="https://cdn.pyodide.dev/v0.23.4/full/pyodide.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        let requestCount = 0;
+        const maxRequests = 10;
+        const requestWindow = 60000;
+
+        function rateLimitCheck() {
+            if (requestCount >= maxRequests) {
+                alert('Too many requests. Please try again later.');
+                return false;
+            }
+            requestCount++;
+            setTimeout(() => { requestCount--; }, requestWindow);
+            return true;
+        }
+
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
             const modalOverlay = document.getElementById('modal-overlay');
             const closeModal = document.getElementById('close-modal');
             const modalContent = document.getElementById('modal-content-container');
             const vmWindow = document.getElementById('vm-window');
             const closeVm = document.getElementById('close-vm');
             const vmLoading = document.getElementById('vm-loading');
-            const statusBar = document.getElementById('status-bar');
-            
+            const mobileNotification = document.getElementById('mobile-notification');
+
+            if (isMobileDevice()) {
+                mobileNotification.classList.add('active');
+            }
+
+            let pyodide = await loadPyodide();
+            await pyodide.loadPackage('micropip');
+
             document.getElementById('vm-method-btn').addEventListener('click', function() {
-                vmWindow.style.display = 'block';
+                if (!rateLimitCheck()) return;
+                vmWindow.classList.add('active');
                 vmLoading.style.display = 'flex';
-                
-                showStatus('Initializing VM Method...');
                 
                 setTimeout(function() {
                     vmLoading.style.display = 'none';
-                    showStatus('VM Method executed successfully!');
-                }, 3000);
+                    console.log('VM Method executed successfully');
+                }, 2000);
                 
                 executeVmBypass();
             });
-            
+
             document.getElementById('p*oxy-method-btn').addEventListener('click', function() {
+                if (!rateLimitCheck()) return;
                 modalContent.innerHTML = `
                     <h3>Redirect Method</h3>
-                    <p>This method demonstrates how a p*oxy redirection works:</p>
+                    <p>This method simulates a redirection:</p>
                     <div class="code-block">
                         <pre>
-async function setupP*oxy() {
+async function setupRedirect() {
     try {
-        const p*oxy = {
-            host: 'p*oxy.example.com',
+        const redirect = {
+            host: 'redirect.example.com',
             port: 8080,
             protocol: 'https'
         };
-            
         const response = await fetch('https://target.com', {
             method: 'GET',
             headers: {
-                'X-Forwarded-For': '192.168.1.1',
-                'User-Agent': 'Custom-Agent/1.0'
+                'X-Forwarded-For': '192.168.1.1'
             }
         });
-        
         return await response.text();
     } catch (error) {
-        console.error('P*oxy connection failed:', error);
+        console.error('Redirect failed:', error);
     }
 }
-
-setupP*oxy().then(data => {
-    console.log('Connection established through p*oxy');
+setupRedirect().then(data => {
+    console.log('Redirect connection established');
 });
                         </pre>
                     </div>
-                    <p>Click the button below to execute this code in the test environment:</p>
                     <button class="method-btn" id="execute-p*oxy">Execute Code</button>
                 `;
                 
                 modalOverlay.classList.add('active');
                 
                 document.getElementById('execute-p*oxy').addEventListener('click', function() {
-                    showStatus('P*oxy method executed successfully!');
+                    if (!rateLimitCheck()) return;
                     executeP*oxyBypass();
+                    console.log('Redirect method executed successfully');
                 });
             });
-            
-            document.getElementById('dns-method-btn').addEventListener('click', function() {
+
+            document.getElementById('dns-method-btn').addEventListener('click', async function() {
+                if (!rateLimitCheck()) return;
                 modalContent.innerHTML = `
                     <h3>DNS Tunneling Method</h3>
-                    <p>This method demonstrates how DNS tunneling works:</p>
+                    <p>This method simulates DNS tunneling using Python:</p>
                     <div class="code-block">
                         <pre>
-async function setupDnsTunnel() {
-    const config = {
-        domain: 'tunnel.example.com',
-        subdomainLength: 63,
-        maxPayloadSize: 250,
-        encodeFunction: btoa
-    };
-    
-    const payload = JSON.stringify({
-        action: 'request',
-        url: 'https://target.com/resource',
-        method: 'GET'
-    });
-    
-    const chunks = chunkString(
-        config.encodeFunction(payload), 
-        config.maxPayloadSize
-    );
-    
-    for (let i = 0; i < chunks.length; i++) {
-        const subdomain = chunks[i] + '.' + 
-                         i + '.' + 
-                         chunks.length + '.' + 
-                         config.domain;
-                         
-        await performDnsLookup(subdomain);
+def setup_dns_tunnel():
+    config = {
+        'domain': 'tunnel.example.com',
+        'subdomain_length': 63,
+        'max_payload_size': 250
     }
-    
-    return 'DNS Tunnel Established';
-}
+    print('Simulating DNS tunnel setup...')
+    return 'DNS Tunnel Established'
 
-function chunkString(str, size) {
-    const chunks = [];
-    for (let i = 0; i < str.length; i += size) {
-        chunks.push(str.slice(i, i + size));
-    }
-    return chunks;
-}
-
-async function performDnsLookup(domain) {
-    console.log('Looking up: ${domain}');
-    return '127.0.0.1';
-}
-
-setupDnsTunnel().then(result => {
-    console.log(result);
-});
+result = setup_dns_tunnel()
+print(result)
                         </pre>
                     </div>
-                    <p>Click the button below to execute this code in the test environment:</p>
                     <button class="method-btn" id="execute-dns">Execute Code</button>
                 `;
                 
                 modalOverlay.classList.add('active');
                 
-                document.getElementById('execute-dns').addEventListener('click', function() {
-                    showStatus('DNS Tunneling method executed successfully!');
-                    executeDnsBypass();
+                document.getElementById('execute-dns').addEventListener('click', async function() {
+                    if (!rateLimitCheck()) return;
+                    await executeDnsBypass(pyodide);
+                    console.log('DNS Tunneling method executed successfully');
                 });
             });
-            
+
             closeModal.addEventListener('click', function() {
                 modalOverlay.classList.remove('active');
             });
-            
+
             closeVm.addEventListener('click', function() {
-                vmWindow.style.display = 'none';
+                vmWindow.classList.remove('active');
             });
-            
+
             modalOverlay.addEventListener('click', function(e) {
                 if (e.target === modalOverlay) {
                     modalOverlay.classList.remove('active');
                 }
             });
-            
-            function showStatus(message) {
-                statusBar.textContent = message;
-                statusBar.classList.add('active');
-                
-                setTimeout(function() {
-                    statusBar.classList.remove('active');
-                }, 5000);
-            }
-            
+
             function executeVmBypass() {
                 console.log('VM Method initiated');
-                
-                const vmCode = `
-                const vmTunnel = {
+                const vmConfig = {
                     name: 'vm_tun0',
                     ip: '10.0.0.1',
-                    mask: '255.255.255.0',
-                    mtu: 1500,
                     initialize: function() {
-                        return { status: 'success', message: 'Tunnel interface created' };
+                        return { status: 'success', message: 'Tunnel created' };
                     }
                 };
-                
-                const routeConfig = {
-                    destination: '0.0.0.0/0',
-                    gateway: '10.0.0.254',
-                    interface: 'vm_tun0',
-                    metric: 100
-                };
-                
-                vmTunnel.initialize();
-                
-                console.log('VM tunnel established successfully');
-                `;
-                
-                eval(vmCode);
+                vmConfig.initialize();
+                console.log('VM tunnel established');
             }
-            
+
             function executeP*oxyBypass() {
-                console.log('P*oxy Method initiated');
-                
-                const p*oxyCode = `
-                async function setupP*oxy() {
+                console.log('Redirect Method initiated');
+                async function setupRedirect() {
                     try {
-                        const p*oxy = {
-                            host: 'p*oxy.example.com',
-                            port: 8080,
-                            protocol: 'https'
-                        };
-                            
-                        console.log('P*oxy connection simulated successfully');
+                        console.log('Redirect connection simulated');
                         return 'Connection established';
                     } catch (error) {
-                        console.error('P*oxy connection failed:', error);
+                        console.error('Redirect failed:', error);
                     }
                 }
-                
-                setupP*oxy();
-                `;
-                
-                eval(p*oxyCode);
+                setupRedirect();
             }
-            
-            function executeDnsBypass() {
+
+            async function executeDnsBypass(pyodide) {
                 console.log('DNS Tunneling Method initiated');
-                
-                const dnsCode = `
-                function setupDnsTunnel() {
-                    const config = {
-                        domain: 'tunnel.example.com',
-                        subdomainLength: 63,
-                        maxPayloadSize: 250
-                    };
-                    
-                    console.log('DNS Tunnel simulated successfully');
-                    return 'DNS Tunnel Established';
-                }
-                
-                setupDnsTunnel();
-                `;
-                
-                eval(dnsCode);
+                await pyodide.runPythonAsync(`
+                    def setup_dns_tunnel():
+                        config = {
+                            'domain': 'tunnel.example.com',
+                            'subdomain_length': 63,
+                            'max_payload_size': 250
+                        }
+                        print('Simulating DNS tunnel setup...')
+                        return 'DNS Tunnel Established'
+
+                    result = setup_dns_tunnel()
+                    print(result)
+                `);
             }
         });
     </script>
