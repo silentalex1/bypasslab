@@ -1,94 +1,317 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Extract and install Chrome Extensions with ease using ChromeXtractor Pro">
-    <meta name="keywords" content="crx, chrome, extension, extract, install, source code">
-    <meta name="author" content="xAI">
-    <title>ChromeXtractor Pro</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">
-</head>
-<body>
-    <div class="wrapper">
-        <header>
-            <div class="logo">
-                <img src="logo.png" alt="ChromeXtractor Pro Logo" height="70">
-            </div>
-            <h1>ChromeXtractor Pro</h1>
-            <p>Extract, Install, and Explore Chrome Extensions with Ease</p>
-        </header>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
 
-        <main>
-            <section class="tool-section">
-                <div class="card extract-container">
-                    <h2>Extract Source Code</h2>
-                    <div class="drop-zone" id="dropZone">
-                        <p>Drag & Drop .CRX File or Click to Upload</p>
-                        <input type="file" id="fileInput" accept=".crx">
-                    </div>
-                    <a href="#" class="btn download-btn" id="downloadSourceBtn">Download Source</a>
-                    <p class="status-message" id="extractStatus"></p>
-                </div>
+body {
+    background: linear-gradient(145deg, #f1f5f9 0%, #dbeafe 100%);
+    min-height: 100vh;
+    color: #1e293b;
+}
 
-                <div class="card install-container">
-                    <h2>Install Extension</h2>
-                    <input type="text" id="extensionUrl" placeholder="Enter Chrome Extension URL">
-                    <button class="btn action-btn" id="installBtn">Install Now</button>
-                    <p class="status-message" id="installStatus"></p>
-                </div>
-            </section>
+.wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 60px 30px;
+}
 
-            <section class="features-section">
-                <h2>Why Choose ChromeXtractor Pro?</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="icon">📦</div>
-                        <h3>Instant Extraction</h3>
-                        <p>Extract .CRX files to access source code in seconds.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">⚡</div>
-                        <h3>Direct Installation</h3>
-                        <p>Install extensions seamlessly without API restrictions.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">🔒</div>
-                        <h3>Privacy First</h3>
-                        <p>Process everything locally, keeping your data secure.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">🛠️</div>
-                        <h3>Developer Friendly</h3>
-                        <p>Explore extension code to learn and debug easily.</p>
-                    </div>
-                </div>
-            </section>
-        </main>
+header {
+    text-align: center;
+    margin-bottom: 80px;
+}
 
-        <footer>
-            <p>© 2025 ChromeXtractor Pro. All Rights Reserved.</p>
-            <div class="footer-links">
-                <a href="#">About</a>
-                <a href="#">Contact</a>
-                <a href="#">Terms of Use</a>
-                <a href="#">Privacy Policy</a>
-            </div>
-        </footer>
-    </div>
+.logo img {
+    margin-bottom: 30px;
+    transition: transform 0.4s ease;
+}
 
-    <div class="modal" id="permissionModal">
-        <div class="modal-content">
-            <h2>Permission Required</h2>
-            <p>Allow ChromeXtractor Pro to download and install this extension?</p>
-            <div class="modal-buttons">
-                <button class="modal-btn allow" id="allowBtn">Allow</button>
-                <button class="modal-btn deny" id="denyBtn">Deny</button>
-            </div>
-        </div>
-    </div>
+.logo img:hover {
+    transform: rotate(360deg) scale(1.1);
+}
 
-    <script src="script.js"></script>
-</body>
-</html>
+h1 {
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 15px;
+}
+
+header p {
+    font-size: 1.4rem;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.header-cta {
+    margin-top: 20px;
+}
+
+.cta-btn {
+    padding: 16px 40px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.cta-btn:hover {
+    background: #4338ca;
+    transform: scale(1.05);
+}
+
+h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.tool-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 50px;
+    margin-bottom: 100px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.tool-section.visible {
+    opacity: 1;
+}
+
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.drop-zone {
+    border: 2px dashed #d1d5db;
+    border-radius: 15px;
+    padding: 60px;
+    text-align: center;
+    cursor: pointer;
+    background: #f9fafb;
+    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+}
+
+.drop-zone:hover {
+    border-color: #4f46e5;
+    background: #f1f5f9;
+    transform: scale(1.02);
+}
+
+.drop-zone p {
+    font-size: 1.3rem;
+    color: #64748b;
+}
+
+.drop-zone input {
+    display: none;
+}
+
+.install-container input {
+    width: 100%;
+    padding: 18px;
+    border: 2px solid #e5e7eb;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.install-container input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: #4f46e5;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.download-btn {
+    display: none;
+}
+
+.btn:hover {
+    background: #4338ca;
+    transform: translateY(-3px);
+}
+
+.status-message {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #dc2626;
+}
+
+.status-message.success {
+    color: #16a34a;
+}
+
+.features-section {
+    margin-bottom: 100px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+}
+
+.feature-card {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card .icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #4f46e5;
+}
+
+.feature-card h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.feature-card p {
+    font-size: 1.1rem;
+    color: #64748b;
+}
+
+footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+footer p {
+    font-size: 1rem;
+    color: #64748b;
+}
+
+.footer-links {
+    margin-top: 20px;
+}
+
+.footer-links a {
+    margin: 0 20px;
+    color: #4f46e5;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #4338ca;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content h2 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+}
+
+.modal-content p {
+    font-size: 1.2rem;
+    color: #64748b;
+    margin-bottom: 35px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+}
+
+.modal-btn {
+    padding: 14px 35px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.modal-btn.allow {
+    background: #4f46e5;
+    color: white;
+}
+
+.modal-btn.allow:hover {
+    background: #4338ca;
+    transform: translateY(-3px);
+}
+
+.modal-btn.deny {
+    background: #e5e7eb;
+    color: #1e293b;
+}
+
+.modal-btn.deny:hover {
+    background: #d1d5db;
+    transform: translateY(-3px);
+}
