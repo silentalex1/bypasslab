@@ -6,79 +6,82 @@
 }
 
 body {
-    background: linear-gradient(145deg, #f1f5f9 0%, #dbeafe 100%);
+    background: linear-gradient(135deg, #e0e7ff 0%, #c4e0e5 100%);
     min-height: 100vh;
     color: #1e293b;
 }
 
 .wrapper {
-    max-width: 1300px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 60px 30px;
+    padding: 70px 40px;
 }
 
 header {
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: 90px;
 }
 
 .logo img {
-    margin-bottom: 30px;
-    transition: transform 0.4s ease;
+    margin-bottom: 35px;
+    transition: transform 0.5s ease;
 }
 
 .logo img:hover {
-    transform: rotate(360deg) scale(1.1);
+    transform: rotate(360deg) scale(1.15);
 }
 
 h1 {
-    font-size: 3.2rem;
+    font-size: 3.5rem;
     font-weight: 700;
     color: #1e293b;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header p {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     color: #64748b;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .header-cta {
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .cta-btn {
-    padding: 16px 40px;
-    font-size: 1.3rem;
+    padding: 18px 50px;
+    font-size: 1.4rem;
     font-weight: 600;
     background: #4f46e5;
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 15px;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .cta-btn:hover {
     background: #4338ca;
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
 }
 
 h2 {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     text-align: center;
+    color: #1e293b;
 }
 
 .tool-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-    gap: 50px;
-    margin-bottom: 100px;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 60px;
+    margin-bottom: 120px;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.6s ease;
 }
 
 .tool-section.visible {
@@ -87,21 +90,21 @@ h2 {
 
 .card {
     background: white;
-    padding: 40px;
-    border-radius: 25px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .drop-zone {
-    border: 2px dashed #d1d5db;
-    border-radius: 15px;
-    padding: 60px;
+    border: 3px dashed #d1d5db;
+    border-radius: 20px;
+    padding: 70px;
     text-align: center;
     cursor: pointer;
     background: #f9fafb;
@@ -111,11 +114,11 @@ h2 {
 .drop-zone:hover {
     border-color: #4f46e5;
     background: #f1f5f9;
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
 .drop-zone p {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: #64748b;
 }
 
@@ -125,32 +128,32 @@ h2 {
 
 .install-container input {
     width: 100%;
-    padding: 18px;
+    padding: 20px;
     border: 2px solid #e5e7eb;
     border-radius: 15px;
-    font-size: 1.1rem;
-    margin-bottom: 25px;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .install-container input:focus {
     border-color: #4f46e5;
-    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 0 0 5px rgba(79, 70, 229, 0.15);
 }
 
 .btn {
     display: block;
     width: 100%;
-    padding: 18px;
+    padding: 20px;
     background: #4f46e5;
     color: white;
     text-align: center;
     text-decoration: none;
     border-radius: 15px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 500;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .download-btn {
@@ -159,13 +162,14 @@ h2 {
 
 .btn:hover {
     background: #4338ca;
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
 }
 
 .status-message {
-    margin-top: 25px;
+    margin-top: 30px;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #dc2626;
 }
 
@@ -174,66 +178,66 @@ h2 {
 }
 
 .features-section {
-    margin-bottom: 100px;
+    margin-bottom: 120px;
 }
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
 }
 
 .feature-card {
     background: white;
-    padding: 35px;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
     text-align: center;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
 .feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
 }
 
 .feature-card .icon {
-    font-size: 3rem;
-    margin-bottom: 20px;
+    font-size: 3.5rem;
+    margin-bottom: 25px;
     color: #4f46e5;
 }
 
 .feature-card h3 {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     font-weight: 600;
     margin-bottom: 15px;
 }
 
 .feature-card p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #64748b;
 }
 
 footer {
     text-align: center;
-    padding: 40px 0;
+    padding: 50px 0;
     border-top: 1px solid #e5e7eb;
 }
 
 footer p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #64748b;
 }
 
 .footer-links {
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .footer-links a {
-    margin: 0 20px;
+    margin: 0 25px;
     color: #4f46e5;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.1rem;
     transition: color 0.3s ease;
 }
 
@@ -247,7 +251,7 @@ footer p {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.7);
     display: none;
     justify-content: center;
     align-items: center;
@@ -256,44 +260,44 @@ footer p {
 
 .modal-content {
     background: white;
-    padding: 50px;
-    border-radius: 20px;
+    padding: 60px;
+    border-radius: 25px;
     text-align: center;
-    max-width: 500px;
+    max-width: 550px;
     width: 90%;
-    animation: slideIn 0.4s ease;
+    animation: slideIn 0.5s ease;
 }
 
 @keyframes slideIn {
-    from { transform: translateY(-30px); opacity: 0; }
+    from { transform: translateY(-40px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
 .modal-content h2 {
-    font-size: 2rem;
-    margin-bottom: 25px;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
 }
 
 .modal-content p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: #64748b;
-    margin-bottom: 35px;
+    margin-bottom: 40px;
 }
 
 .modal-buttons {
     display: flex;
-    gap: 25px;
+    gap: 30px;
     justify-content: center;
 }
 
 .modal-btn {
-    padding: 14px 35px;
+    padding: 16px 40px;
     border: none;
-    border-radius: 12px;
-    font-size: 1.2rem;
+    border-radius: 15px;
+    font-size: 1.3rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .modal-btn.allow {
@@ -303,7 +307,8 @@ footer p {
 
 .modal-btn.allow:hover {
     background: #4338ca;
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
 }
 
 .modal-btn.deny {
@@ -313,5 +318,6 @@ footer p {
 
 .modal-btn.deny:hover {
     background: #d1d5db;
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
