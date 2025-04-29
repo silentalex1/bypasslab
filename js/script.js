@@ -5,13 +5,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('fileInput');
     const downloadSourceBtn = document.getElementById('downloadSourceBtn');
     const extractStatus = document.getElementById('extractStatus');
-    const extensionUrlInput = document.getElementById('extensionUrl');
+    const extensionRepoUrlInput = document.getElementById('extensionRepoUrl');
     const installBtn = document.getElementById('installBtn');
     const installStatus = document.getElementById('installStatus');
     const permissionModal = document.getElementById('permissionModal');
     const allowBtn = document.getElementById('allowBtn');
     const denyBtn = document.getElementById('denyBtn');
-    let currentExtensionUrl = '';
+    let currentRepoUrl = '';
+    let permissionsGranted = false;
+
+    function requestPermissions() {
+        return new Promise((resolve) => {
+            permissionModal.style.display = 'flex';
+            allowBtn.onclick = () => {
+                permissionModal.style.display = 'none';
+                permissionsGranted = true;
+                resolve(true);
+            };
+            denyBtn.onclick = () => {
+                permissionModal.style.display = 'none';
+                permissionsGranted = false;
+                resolve(false);
+            };
+        });
+    }
+
+    requestPermissions();
 
     getStartedBtn.addEventListener('click', () => {
         toolSection.scrollIntoView({ behavior: 'smooth' });
@@ -77,49 +96,78 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsArrayBuffer(file);
     }
 
-    installBtn.addEventListener('click', () => {
-        const url = extensionUrlInput.value.trim();
-        if (!url || !url.match(/^https:\/\/[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+\/[a-zA-Z0-9-]+$/)) {
-            installStatus.textContent = 'Please enter a valid extension URL';
+    installBtn.addEventListener('click', async () => {
+        const repoUrl = extensionRepoUrlInput.value.trim();
+        if (!repoUrl || !repoUrl.match(/^[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+$/)) {
+            installStatus.textContent = 'Please enter a valid GitHub repo URL (e.g., user/repo)';
             return;
         }
-        currentExtensionUrl = url;
-        permissionModal.style.display = 'flex';
+        if (!permissionsGranted) {
+            const granted = await requestPermissions();
+            if (!granted) {
+                installStatus.textContent = 'Permissions denied. Installation cancelled.';
+                return;
+            }
+        }
+        currentRepoUrl = repoUrl;
         installStatus.textContent = '';
+        customInstallExtension(currentRepoUrl);
     });
 
-    allowBtn.addEventListener('click', () => {
-        permissionModal.style.display = 'none';
-        customInstallExtension(currentExtensionUrl);
-    });
-
-    denyBtn.addEventListener('click', () => {
-        permissionModal.style.display = 'none';
-        installStatus.textContent = 'Installation cancelled';
-    });
-
-    function customInstallExtension(url) {
-        installStatus.textContent = 'Fetching extension...';
-        fetchCrxFile(url).then((crxData) => {
-            const blob = new Blob([crxData], { type: 'application/x-chrome-extension' });
-            const crxUrl = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = crxUrl;
-            a.download = 'extension.crx';
-            a.click();
-            URL.revokeObjectURL(crxUrl);
-            installStatus.textContent = 'Extension downloaded. Drag it into Chrome to install.';
-            installStatus.classList.add('success');
+    function customInstallExtension(repo) {
+        installStatus.textContent = 'Fetching extension from GitHub...';
+        fetchCrxFromGitHub(repo).then((crxData) => {
+            bypassChromeSecurity(crxData);
         }).catch((err) => {
             installStatus.textContent = `Failed to fetch extension: ${err.message}`;
         });
     }
 
-    async function fetchCrxFile(url) {
-        const extensionId = url.split('/').pop();
-        const crxUrl = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=91.0.4472.114&acceptformat=crx2,crx3&x=id%3D${extensionId}%26uc`;
-        const response = await fetch(crxUrl, { method: 'GET', redirect: 'follow' });
-        if (!response.ok) throw new Error('Network error');
+    async function fetchCrxFromGitHub(repo) {
+        const rawUrl = `https://raw.githubusercontent.com/${repo}/main/extension.crx`;
+        const response = await fetch(rawUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/octet-stream',
+                'Cache-Control': 'no-cache'
+            }
+        });
+        if (!response.ok) throw new Error('Failed to fetch .CRX from GitHub');
         return await response.arrayBuffer();
+    }
+
+    function bypassChromeSecurity(crxData) {
+        const blob = new Blob([crxData], { type: 'application/x-chrome-extension' });
+        const crxUrl = URL.createObjectURL(blob);
+        const installFrame = document.createElement('iframe');
+        installFrame.style.display = 'none';
+        installFrame.src = crxUrl;
+        document.body.appendChild(installFrame);
+        setTimeout(() => {
+            document.body.removeChild(installFrame);
+            URL.revokeObjectURL(crxUrl);
+            installStatus.textContent = 'Extension installation initiated. Check Chrome extensions page.';
+            installStatus.classList.add('success');
+        }, 1000);
+        chrome.runtime.sendMessage({
+            action: 'installExtension',
+            url: crxUrl
+        }, (response) => {
+            if (response && response.success) {
+                installStatus.textContent = 'Extension installed successfully!';
+                installStatus.classList.add('success');
+            } else {
+                installStatus.textContent = 'Manual installation required. Drag the downloaded file into Chrome.';
+            }
+        });
+    }
+
+    if (typeof chrome !== 'undefined' && chrome.runtime) {
+        chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+            if (message.action === 'permissionGranted') {
+                permissionsGranted = true;
+                sendResponse({ success: true });
+            }
+        });
     }
 });
