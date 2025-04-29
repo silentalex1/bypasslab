@@ -1,323 +1,125 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const getStartedBtn = document.getElementById('getStartedBtn');
+    const toolSection = document.getElementById('toolSection');
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const downloadSourceBtn = document.getElementById('downloadSourceBtn');
+    const extractStatus = document.getElementById('extractStatus');
+    const extensionUrlInput = document.getElementById('extensionUrl');
+    const installBtn = document.getElementById('installBtn');
+    const installStatus = document.getElementById('installStatus');
+    const permissionModal = document.getElementById('permissionModal');
+    const allowBtn = document.getElementById('allowBtn');
+    const denyBtn = document.getElementById('denyBtn');
+    let currentExtensionUrl = '';
 
-body {
-    background: linear-gradient(135deg, #e0e7ff 0%, #c4e0e5 100%);
-    min-height: 100vh;
-    color: #1e293b;
-}
+    getStartedBtn.addEventListener('click', () => {
+        toolSection.scrollIntoView({ behavior: 'smooth' });
+        toolSection.classList.add('visible');
+    });
 
-.wrapper {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 70px 40px;
-}
+    dropZone.addEventListener('click', () => fileInput.click());
 
-header {
-    text-align: center;
-    margin-bottom: 90px;
-}
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#4f46e5';
+    });
 
-.logo img {
-    margin-bottom: 35px;
-    transition: transform 0.5s ease;
-}
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.style.borderColor = '#d1d5db';
+    });
 
-.logo img:hover {
-    transform: rotate(360deg) scale(1.15);
-}
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#d1d5db';
+        const file = e.dataTransfer.files[0];
+        if (file && file.name.endsWith('.crx')) {
+            processCrxFile(file);
+        } else {
+            extractStatus.textContent = 'Please upload a valid .CRX file';
+        }
+    });
 
-h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 20px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (file && file.name.endsWith('.crx')) {
+            processCrxFile(file);
+        } else {
+            extractStatus.textContent = 'Please upload a valid .CRX file';
+        }
+    });
 
-header p {
-    font-size: 1.5rem;
-    color: #64748b;
-    margin-bottom: 30px;
-}
+    function processCrxFile(file) {
+        extractStatus.textContent = 'Processing...';
+        const reader = new FileReader();
+        reader.onload = () => {
+            const arrayBuffer = reader.result;
+            const zip = new JSZip();
+            zip.loadAsync(arrayBuffer).then((zipContent) => {
+                extractStatus.textContent = '';
+                downloadSourceBtn.style.display = 'block';
+                downloadSourceBtn.onclick = () => {
+                    zip.generateAsync({ type: 'blob' }).then((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${file.name.replace('.crx', '')}_source.zip`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        extractStatus.textContent = 'Source code downloaded successfully!';
+                        extractStatus.classList.add('success');
+                    });
+                };
+            }).catch(() => {
+                extractStatus.textContent = 'Failed to extract source code';
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    }
 
-.header-cta {
-    margin-top: 25px;
-}
+    installBtn.addEventListener('click', () => {
+        const url = extensionUrlInput.value.trim();
+        if (!url || !url.match(/^https:\/\/[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+\/[a-zA-Z0-9-]+$/)) {
+            installStatus.textContent = 'Please enter a valid extension URL';
+            return;
+        }
+        currentExtensionUrl = url;
+        permissionModal.style.display = 'flex';
+        installStatus.textContent = '';
+    });
 
-.cta-btn {
-    padding: 18px 50px;
-    font-size: 1.4rem;
-    font-weight: 600;
-    background: #4f46e5;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
+    allowBtn.addEventListener('click', () => {
+        permissionModal.style.display = 'none';
+        customInstallExtension(currentExtensionUrl);
+    });
 
-.cta-btn:hover {
-    background: #4338ca;
-    transform: scale(1.08);
-    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
-}
+    denyBtn.addEventListener('click', () => {
+        permissionModal.style.display = 'none';
+        installStatus.textContent = 'Installation cancelled';
+    });
 
-h2 {
-    font-size: 2.4rem;
-    font-weight: 700;
-    margin-bottom: 35px;
-    text-align: center;
-    color: #1e293b;
-}
+    function customInstallExtension(url) {
+        installStatus.textContent = 'Fetching extension...';
+        fetchCrxFile(url).then((crxData) => {
+            const blob = new Blob([crxData], { type: 'application/x-chrome-extension' });
+            const crxUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = crxUrl;
+            a.download = 'extension.crx';
+            a.click();
+            URL.revokeObjectURL(crxUrl);
+            installStatus.textContent = 'Extension downloaded. Drag it into Chrome to install.';
+            installStatus.classList.add('success');
+        }).catch((err) => {
+            installStatus.textContent = `Failed to fetch extension: ${err.message}`;
+        });
+    }
 
-.tool-section {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 60px;
-    margin-bottom: 120px;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
-
-.tool-section.visible {
-    opacity: 1;
-}
-
-.card {
-    background: white;
-    padding: 50px;
-    border-radius: 30px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-.drop-zone {
-    border: 3px dashed #d1d5db;
-    border-radius: 20px;
-    padding: 70px;
-    text-align: center;
-    cursor: pointer;
-    background: #f9fafb;
-    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
-}
-
-.drop-zone:hover {
-    border-color: #4f46e5;
-    background: #f1f5f9;
-    transform: scale(1.03);
-}
-
-.drop-zone p {
-    font-size: 1.4rem;
-    color: #64748b;
-}
-
-.drop-zone input {
-    display: none;
-}
-
-.install-container input {
-    width: 100%;
-    padding: 20px;
-    border: 2px solid #e5e7eb;
-    border-radius: 15px;
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.install-container input:focus {
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 5px rgba(79, 70, 229, 0.15);
-}
-
-.btn {
-    display: block;
-    width: 100%;
-    padding: 20px;
-    background: #4f46e5;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 15px;
-    font-size: 1.3rem;
-    font-weight: 500;
-    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.download-btn {
-    display: none;
-}
-
-.btn:hover {
-    background: #4338ca;
-    transform: translateY(-4px);
-    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
-}
-
-.status-message {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 1.2rem;
-    color: #dc2626;
-}
-
-.status-message.success {
-    color: #16a34a;
-}
-
-.features-section {
-    margin-bottom: 120px;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 50px;
-}
-
-.feature-card {
-    background: white;
-    padding: 40px;
-    border-radius: 25px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-    text-align: center;
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-}
-
-.feature-card .icon {
-    font-size: 3.5rem;
-    margin-bottom: 25px;
-    color: #4f46e5;
-}
-
-.feature-card h3 {
-    font-size: 1.7rem;
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
-.feature-card p {
-    font-size: 1.2rem;
-    color: #64748b;
-}
-
-footer {
-    text-align: center;
-    padding: 50px 0;
-    border-top: 1px solid #e5e7eb;
-}
-
-footer p {
-    font-size: 1.1rem;
-    color: #64748b;
-}
-
-.footer-links {
-    margin-top: 25px;
-}
-
-.footer-links a {
-    margin: 0 25px;
-    color: #4f46e5;
-    text-decoration: none;
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
-}
-
-.footer-links a:hover {
-    color: #4338ca;
-}
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: white;
-    padding: 60px;
-    border-radius: 25px;
-    text-align: center;
-    max-width: 550px;
-    width: 90%;
-    animation: slideIn 0.5s ease;
-}
-
-@keyframes slideIn {
-    from { transform: translateY(-40px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-.modal-content h2 {
-    font-size: 2.2rem;
-    margin-bottom: 30px;
-}
-
-.modal-content p {
-    font-size: 1.3rem;
-    color: #64748b;
-    margin-bottom: 40px;
-}
-
-.modal-buttons {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-}
-
-.modal-btn {
-    padding: 16px 40px;
-    border: none;
-    border-radius: 15px;
-    font-size: 1.3rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.modal-btn.allow {
-    background: #4f46e5;
-    color: white;
-}
-
-.modal-btn.allow:hover {
-    background: #4338ca;
-    transform: translateY(-4px);
-    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
-}
-
-.modal-btn.deny {
-    background: #e5e7eb;
-    color: #1e293b;
-}
-
-.modal-btn.deny:hover {
-    background: #d1d5db;
-    transform: translateY(-4px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
+    async function fetchCrxFile(url) {
+        const extensionId = url.split('/').pop();
+        const crxUrl = `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=91.0.4472.114&acceptformat=crx2,crx3&x=id%3D${extensionId}%26uc`;
+        const response = await fetch(crxUrl, { method: 'GET', redirect: 'follow' });
+        if (!response.ok) throw new Error('Network error');
+        return await response.arrayBuffer();
+    }
+});
