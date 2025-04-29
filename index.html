@@ -3,765 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.pyodide.dev; style-src 'self' 'unsafe-inline';">
-    <title>Bypass Methods Testing</title>
-    <style>
-        :root {
-            --primary: #007bff;
-            --secondary: #0056b3;
-            --dark: #1a1a1a;
-            --light: #f8f9fa;
-            --accent: #dc3545;
-            --success: #28a745;
-            --warning: #ffc107;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        
-        body {
-            background-color: var(--dark);
-            color: #fff;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-image: linear-gradient(to bottom, #1e1e2d, #0f1642);
-        }
-        
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        header {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 5px 0;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-        
-        .hero {
-            padding: 80px 0;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-        
-        .hero p {
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-            color: #adb5bd;
-        }
-        
-        .methods-section {
-            padding: 40px 0;
-        }
-        
-        .methods-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .method-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 20px;
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .method-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .method-content h3 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-        
-        .method-content p {
-            font-size: 0.95rem;
-            color: #adb5bd;
-            margin-bottom: 15px;
-        }
-        
-        .method-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: var(--primary);
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .method-btn:hover {
-            background: var(--secondary);
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .section-title h2 {
-            font-size: 2rem;
-            color: #fff;
-        }
-        
-        .section-title p {
-            font-size: 1rem;
-            color: #adb5bd;
-            max-width: 600px;
-            margin: 10px auto;
-        }
-        
-        footer {
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px 0;
-            margin-top: auto;
-        }
-        
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .footer-links {
-            list-style: none;
-            display: flex;
-            gap: 15px;
-        }
-        
-        .footer-links a {
-            color: #adb5bd;
-            text-decoration: none;
-        }
-        
-        .footer-links a:hover {
-            color: #fff;
-        }
-        
-        .copyright {
-            color: #adb5bd;
-        }
-        
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            transition: opacity 0.3s ease;
-        }
-        
-        .modal-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .modal-content {
-            background-color: #1e1e2d;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5rem;
-            color: #adb5bd;
-            cursor: pointer;
-        }
-        
-        .close-modal:hover {
-            color: #fff;
-        }
-        
-        .code-block {
-            background-color: #2d2d3d;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-        
-        .code-block pre {
-            color: #e9ecef;
-            font-family: 'Consolas', monospace;
-            font-size: 0.9rem;
-        }
-        
-        .vm-window {
-            width: 90%;
-            max-width: 800px;
-            background-color: #fff;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            z-index: 1000;
-        }
-        
-        .vm-window.active {
-            display: block;
-        }
-        
-        .vm-titlebar {
-            background: #0078d7;
-            padding: 8px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-        
-        .vm-title {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .vm-controls {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .vm-control {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        
-        .vm-control.minimize {
-            background-color: #ffd33d;
-        }
-        
-        .vm-control.maximize {
-            background-color: #28ca42;
-        }
-        
-        .vm-control.close {
-            background-color: #ff605c;
-        }
-        
-        .vm-content {
-            height: 400px;
-            background-color: white;
-            color: black;
-        }
-        
-        .vm-browser {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .vm-toolbar {
-            background-color: #f5f5f5;
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        
-        .vm-address-bar {
-            flex-grow: 1;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 5px 8px;
-            font-size: 0.8rem;
-            color: #333;
-        }
-        
-        .vm-browser-btn {
-            background-color: #f0f0f0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 4px 8px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        
-        .vm-browser-btn:hover {
-            background-color: #e8e8e8;
-        }
-        
-        .vm-browser-content {
-            flex-grow: 1;
-            padding: 12px;
-            overflow-y: auto;
-        }
-        
-        .vm-loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 10px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .mobile-notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(220, 53, 69, 0.9);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            z-index: 1001;
-            display: none;
-            animation: fadeOut 1s forwards;
-            animation-delay: 5s;
-            text-align: center;
-            max-width: 90%;
-            box-sizing: border-box;
-        }
-        
-        .mobile-notification.active {
-            display: block;
-        }
-        
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-        
-        .method-tag {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-        
-        .tag-enhanced {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: var(--accent);
-        }
-        
-        .tag-basic {
-            background-color: rgba(0, 123, 255, 0.1);
-            color: var(--primary);
-        }
-        
-        .tag-experimental {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: var(--warning);
-        }
-        
-        @media (max-width: 768px) {
-            .methods-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-    </style>
+    <meta name="description" content="Extract and install Chrome Extensions with ease using ChromeXtractor Pro">
+    <meta name="keywords" content="crx, chrome, extension, extract, install, source code">
+    <meta name="author" content="xAI">
+    <title>ChromeXtractor Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">BypassTester</div>
-                <ul class="nav-links">
-                    <li><a href="#methods">Methods</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <div class="wrapper">
+        <header>
+            <div class="logo">
+                <img src="logo.png" alt="ChromeXtractor Pro Logo" height="70">
+            </div>
+            <h1>ChromeXtractor Pro</h1>
+            <p>Extract, Install, and Explore Chrome Extensions with Ease</p>
+        </header>
 
-    <div class="mobile-notification" id="mobile-notification">
-        User has been detected to be on mobile, these methods may be a bit buggy.
+        <main>
+            <section class="tool-section">
+                <div class="card extract-container">
+                    <h2>Extract Source Code</h2>
+                    <div class="drop-zone" id="dropZone">
+                        <p>Drag & Drop .CRX File or Click to Upload</p>
+                        <input type="file" id="fileInput" accept=".crx">
+                    </div>
+                    <a href="#" class="btn download-btn" id="downloadSourceBtn">Download Source</a>
+                    <p class="status-message" id="extractStatus"></p>
+                </div>
+
+                <div class="card install-container">
+                    <h2>Install Extension</h2>
+                    <input type="text" id="extensionUrl" placeholder="Enter Chrome Extension URL">
+                    <button class="btn action-btn" id="installBtn">Install Now</button>
+                    <p class="status-message" id="installStatus"></p>
+                </div>
+            </section>
+
+            <section class="features-section">
+                <h2>Why Choose ChromeXtractor Pro?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon">📦</div>
+                        <h3>Instant Extraction</h3>
+                        <p>Extract .CRX files to access source code in seconds.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">⚡</div>
+                        <h3>Direct Installation</h3>
+                        <p>Install extensions seamlessly without API restrictions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">🔒</div>
+                        <h3>Privacy First</h3>
+                        <p>Process everything locally, keeping your data secure.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">🛠️</div>
+                        <h3>Developer Friendly</h3>
+                        <p>Explore extension code to learn and debug easily.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2025 ChromeXtractor Pro. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </footer>
     </div>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Test Network Bypass Methods</h1>
-            <p>Explore educational techniques to understand network security and filtering mechanisms in a safe environment.</p>
-        </div>
-    </section>
-
-    <section id="methods" class="methods-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Available Methods</h2>
-                <p>Click a method to test it in this controlled environment.</p>
-            </div>
-            <div class="methods-grid">
-                <div class="method-card">
-                    <div class="method-content">
-                        <span class="method-tag tag-enhanced">Enhanced</span>
-                        <h3>VM Method</h3>
-                        <p>Simulates a virtual machine with a browser to demonstrate bypass techniques.</p>
-                        <button class="method-btn" id="vm-method-btn">Run VM Method</button>
-                    </div>
-                </div>
-                <div class="method-card">
-                    <div class="method-content">
-                        <span class="method-tag tag-basic">Basic</span>
-                        <h3>Redirect Method</h3>
-                        <p>Shows how a redirection functions in a test environment.</p>
-                        <button class="method-btn" id="p*oxy-method-btn">Run Redirect Method</button>
-                    </div>
-                </div>
-                <div class="method-card">
-                    <div class="method-content">
-                        <span class="method-tag tag-experimental">Experimental</span>
-                        <h3>DNS Tunneling</h3>
-                        <p>Simulates DNS tunneling in a controlled setting.</p>
-                        <button class="method-btn" id="dns-method-btn">Run DNS Method</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="permissionModal">
         <div class="modal-content">
-            <span class="close-modal" id="close-modal">×</span>
-            <h2>Method Details</h2>
-            <div id="modal-content-container"></div>
-        </div>
-    </div>
-
-    <div class="vm-window" id="vm-window">
-        <div class="vm-titlebar">
-            <div class="vm-title">Virtual Environment</div>
-            <div class="vm-controls">
-                <div class="vm-control minimize"></div>
-                <div class="vm-control maximize"></div>
-                <div class="vm-control close" id="close-vm"></div>
-            </div>
-        </div>
-        <div class="vm-content">
-            <div class="vm-browser">
-                <div class="vm-toolbar">
-                    <button class="vm-browser-btn">←</button>
-                    <button class="vm-browser-btn">→</button>
-                    <button class="vm-browser-btn">↻</button>
-                    <div class="vm-address-bar">https://example.com/secure_access</div>
-                    <button class="vm-browser-btn">Go</button>
-                </div>
-                <div class="vm-browser-content">
-                    <h2>Secure Access Granted</h2>
-                    <p>The VM Method has established a connection.</p>
-                    <p>This simulation shows how a virtual machine can bypass network restrictions for educational purposes.</p>
-                    <ul>
-                        <li>Connection: Tunneled</li>
-                        <li>Protocol: HTTPS</li>
-                        <li>Status: Connected</li>
-                    </ul>
-                    <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border-left: 3px solid #007bff; border-radius: 3px;">
-                        <p><strong>Note:</strong> This is a simulation for educational purposes only.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="vm-loading" id="vm-loading">
-                <div class="loader"></div>
-                <p>Loading Virtual Environment...</p>
+            <h2>Permission Required</h2>
+            <p>Allow ChromeXtractor Pro to download and install this extension?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn allow" id="allowBtn">Allow</button>
+                <button class="modal-btn deny" id="denyBtn">Deny</button>
             </div>
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="copyright">© 2025 BypassTester - Educational Use Only</div>
-                <ul class="footer-links">
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Terms</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://cdn.pyodide.dev/v0.23.4/full/pyodide.js"></script>
-    <script>
-        let requestCount = 0;
-        const maxRequests = 10;
-        const requestWindow = 60000;
-
-        function rateLimitCheck() {
-            if (requestCount >= maxRequests) {
-                alert('Too many requests. Please try again later.');
-                return false;
-            }
-            requestCount++;
-            setTimeout(() => { requestCount--; }, requestWindow);
-            return true;
-        }
-
-        function isMobileDevice() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        }
-
-        document.addEventListener('DOMContentLoaded', async function() {
-            const modalOverlay = document.getElementById('modal-overlay');
-            const closeModal = document.getElementById('close-modal');
-            const modalContent = document.getElementById('modal-content-container');
-            const vmWindow = document.getElementById('vm-window');
-            const closeVm = document.getElementById('close-vm');
-            const vmLoading = document.getElementById('vm-loading');
-            const mobileNotification = document.getElementById('mobile-notification');
-
-            if (isMobileDevice()) {
-                mobileNotification.classList.add('active');
-            }
-
-            let pyodide = await loadPyodide();
-            await pyodide.loadPackage('micropip');
-
-            document.getElementById('vm-method-btn').addEventListener('click', function() {
-                if (!rateLimitCheck()) return;
-                vmWindow.classList.add('active');
-                vmLoading.style.display = 'flex';
-                
-                setTimeout(function() {
-                    vmLoading.style.display = 'none';
-                    console.log('VM Method executed successfully');
-                }, 2000);
-                
-                executeVmBypass();
-            });
-
-            document.getElementById('p*oxy-method-btn').addEventListener('click', function() {
-                if (!rateLimitCheck()) return;
-                modalContent.innerHTML = `
-                    <h3>Redirect Method</h3>
-                    <p>This method simulates a redirection:</p>
-                    <div class="code-block">
-                        <pre>
-async function setupRedirect() {
-    try {
-        const redirect = {
-            host: 'redirect.example.com',
-            port: 8080,
-            protocol: 'https'
-        };
-        const response = await fetch('https://target.com', {
-            method: 'GET',
-            headers: {
-                'X-Forwarded-For': '192.168.1.1'
-            }
-        });
-        return await response.text();
-    } catch (error) {
-        console.error('Redirect failed:', error);
-    }
-}
-setupRedirect().then(data => {
-    console.log('Redirect connection established');
-});
-                        </pre>
-                    </div>
-                    <button class="method-btn" id="execute-p*oxy">Execute Code</button>
-                `;
-                
-                modalOverlay.classList.add('active');
-                
-                document.getElementById('execute-p*oxy').addEventListener('click', function() {
-                    if (!rateLimitCheck()) return;
-                    executeP*oxyBypass();
-                    console.log('Redirect method executed successfully');
-                });
-            });
-
-            document.getElementById('dns-method-btn').addEventListener('click', async function() {
-                if (!rateLimitCheck()) return;
-                modalContent.innerHTML = `
-                    <h3>DNS Tunneling Method</h3>
-                    <p>This method simulates DNS tunneling using Python:</p>
-                    <div class="code-block">
-                        <pre>
-def setup_dns_tunnel():
-    config = {
-        'domain': 'tunnel.example.com',
-        'subdomain_length': 63,
-        'max_payload_size': 250
-    }
-    print('Simulating DNS tunnel setup...')
-    return 'DNS Tunnel Established'
-
-result = setup_dns_tunnel()
-print(result)
-                        </pre>
-                    </div>
-                    <button class="method-btn" id="execute-dns">Execute Code</button>
-                `;
-                
-                modalOverlay.classList.add('active');
-                
-                document.getElementById('execute-dns').addEventListener('click', async function() {
-                    if (!rateLimitCheck()) return;
-                    await executeDnsBypass(pyodide);
-                    console.log('DNS Tunneling method executed successfully');
-                });
-            });
-
-            closeModal.addEventListener('click', function() {
-                modalOverlay.classList.remove('active');
-            });
-
-            closeVm.addEventListener('click', function() {
-                vmWindow.classList.remove('active');
-            });
-
-            modalOverlay.addEventListener('click', function(e) {
-                if (e.target === modalOverlay) {
-                    modalOverlay.classList.remove('active');
-                }
-            });
-
-            function executeVmBypass() {
-                console.log('VM Method initiated');
-                const vmConfig = {
-                    name: 'vm_tun0',
-                    ip: '10.0.0.1',
-                    initialize: function() {
-                        return { status: 'success', message: 'Tunnel created' };
-                    }
-                };
-                vmConfig.initialize();
-                console.log('VM tunnel established');
-            }
-
-            function executeP*oxyBypass() {
-                console.log('Redirect Method initiated');
-                async function setupRedirect() {
-                    try {
-                        console.log('Redirect connection simulated');
-                        return 'Connection established';
-                    } catch (error) {
-                        console.error('Redirect failed:', error);
-                    }
-                }
-                setupRedirect();
-            }
-
-            async function executeDnsBypass(pyodide) {
-                console.log('DNS Tunneling Method initiated');
-                await pyodide.runPythonAsync(`
-                    def setup_dns_tunnel():
-                        config = {
-                            'domain': 'tunnel.example.com',
-                            'subdomain_length': 63,
-                            'max_payload_size': 250
-                        }
-                        print('Simulating DNS tunnel setup...')
-                        return 'DNS Tunnel Established'
-
-                    result = setup_dns_tunnel()
-                    print(result)
-                `);
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
