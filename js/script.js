@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const getStartedBtn = document.getElementById('getStartedBtn');
+    const toolSection = document.getElementById('toolSection');
     const dropZone = document.getElementById('dropZone');
     const fileInput = document.getElementById('fileInput');
     const downloadSourceBtn = document.getElementById('downloadSourceBtn');
@@ -10,6 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const allowBtn = document.getElementById('allowBtn');
     const denyBtn = document.getElementById('denyBtn');
     let currentExtensionUrl = '';
+
+    getStartedBtn.addEventListener('click', () => {
+        toolSection.scrollIntoView({ behavior: 'smooth' });
+        toolSection.classList.add('visible');
+    });
 
     dropZone.addEventListener('click', () => fileInput.click());
 
@@ -59,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         a.download = `${file.name.replace('.crx', '')}_source.zip`;
                         a.click();
                         URL.revokeObjectURL(url);
-                        extractStatus.textContent = 'Source code downloaded!';
+                        extractStatus.textContent = 'Source code downloaded successfully!';
                         extractStatus.classList.add('success');
                     });
                 };
