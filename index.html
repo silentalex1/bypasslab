@@ -247,6 +247,7 @@ body {
                         </svg>
                     </span>
                     <input type="text" id="newUsername" placeholder="Username" required>
+                    <div class="error-message" id="usernameError">Username is already taken</div>
                 </div>
                 <div class="input-group">
                     <span class="input-icon">
@@ -274,6 +275,11 @@ const loginBtn = document.getElementById('loginBtn');
 const signupBtn = document.getElementById('signupBtn');
 const chatgptKey = document.getElementById('chatgptKey');
 const chatgptKeyError = document.getElementById('chatgptKeyError');
+const usernameError = document.getElementById('usernameError');
+
+// Initialize taken usernames (stored in localStorage for persistence)
+let takenUsernames = JSON.parse(localStorage.getItem('takenUsernames')) || ['realalex'];
+localStorage.setItem('takenUsernames', JSON.stringify(takenUsernames));
 
 signupToggle.addEventListener('click', () => {
     card.classList.add('flipped');
@@ -281,6 +287,7 @@ signupToggle.addEventListener('click', () => {
 
 loginToggle.addEventListener('click', () => {
     card.classList.remove('flipped');
+    usernameError.style.display = 'none';
 });
 
 loginBtn.addEventListener('click', () => {
@@ -307,6 +314,14 @@ signupBtn.addEventListener('click', () => {
         return;
     }
     
+    if (takenUsernames.includes(username.toLowerCase())) {
+        usernameError.style.display = 'block';
+        return;
+    }
+    
+    usernameError.style.display = 'none';
+    takenUsernames.push(username.toLowerCase());
+    localStorage.setItem('takenUsernames', JSON.stringify(takenUsernames));
     localStorage.setItem('username', username);
     localStorage.setItem('password', password);
     card.classList.remove('flipped');
