@@ -308,7 +308,8 @@ signupBtn.addEventListener('click', () => {
     }
     
     localStorage.setItem('username', username);
-    window.location.href = '/bypassai';
+    localStorage.setItem('password', password);
+    card.classList.remove('flipped');
 });
 
 window.onload = () => {
