@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BypassLab - AI Coding Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary: #8b5cf6;
+    --primary-hover: #7c3aed;
+    --secondary: #10b981;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --gray: #64748b;
+}
+
+body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    color: #e2e8f0;
+    overflow-x: hidden;
+}
+
+.app-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    transition: padding 0.3s ease;
+}
+
+.app-container:hover {
+    padding: 2.7rem;
+}
+
+.glass-card {
+    background: rgba(30, 41, 59, 0.85);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.4);
+}
+
+.editor-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    height: 500px;
+    transition: gap 0.3s ease;
+}
+
+.editor-container:hover {
+    gap: 2.5rem;
+}
+
+.code-area {
+    position: relative;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.code-area:hover {
+    transform: scale(1.02);
+}
+
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(15, 23, 42, 0.7);
+    border-radius: 15px 15px 0 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease;
+}
+
+.code-header:hover {
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.code-textarea {
+    width: 100%;
+    height: calc(100% - 60px);
+    padding: 1.2rem;
+    border: none;
+    background: rgba(15, 23, 42, 0.5);
+    color: #e2e8f0;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    resize: none;
+    border-radius: 0 0 15px 15px;
+    outline: none;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+}
+
+.code-textarea:focus {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4);
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.code-textarea::placeholder {
+    color: #94a3b8;
+}
+
+#output {
+    white-space: pre-wrap;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #8b5cf6 rgba(255, 255, 255, 0.1);
+}
+
+#output::-webkit-scrollbar {
+    width: 8px;
+}
+
+#output::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#output::-webkit-scrollbar-thumb {
+    background: #8b5cf6;
+    border-radius: 4px;
+}
+
+#output .keyword {
+    color: #ff79c6;
+    font-weight: bold;
+}
+
+#output .string {
+    color: #f1fa8c;
+}
+
+#output .comment {
+    color: #6272a4;
+    font-style: italic;
+}
+
+#output .function {
+    color: #50fa7b;
+    font-weight: bold;
+}
+
+#output .number {
+    color: #bd93f9;
+}
+
+#output .operator {
+    color: #ff5555;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem 1.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(139, 92, 246, 0.5);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.feature-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem;
+    color: #e2e8f0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.feature-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.1);
+}
+
+.status-badge {
+    background: rgba(16, 185, 129, 0.25);
+    color: #10b981;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background 0.3s ease;
+}
+
+.status-badge:hover {
+    background: rgba(16, 185, 129, 0.4);
+}
+
+.pulsing-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.footer {
+    margin-top: 2.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #94a3b8;
+    transition: opacity 0.3s ease;
+}
+
+.footer:hover {
+    opacity: 0.9;
+}
+
+.language-selector {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.language-pill {
+    padding: 0.6rem 1.2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.language-pill.active {
+    background: var(--primary);
+    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.5);
+    transform: scale(1.05);
+}
+
+.language-pill:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.03);
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="flex justify-between items-center mb-8">
+            <div class="flex items-center gap-4">
+                <div class="text-primary text-4xl">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold">BypassLab</h1>
+                    <p class="text-gray-400 text-sm">AI-Powered Code Assistant</p>
+                </div>
+            </div>
+            <div class="status-badge">
+                <span class="pulsing-dot"></span>
+                <span>API Connected</span>
+            </div>
+        </header>
+
+        <div class="language-selector">
+            <div class="language-pill active" data-lang="javascript">JavaScript</div>
+            <div class="language-pill" data-lang="python">Python</div>
+            <div class="language-pill" data-lang="lua">Lua</div>
+            <div class="language-pill" data-lang="ruby">Ruby</div>
+            <div class="language-pill" data-lang="go">Go</div>
+        </div>
+
+        <div class="glass-card mb-8">
+            <div class="p-5">
+                <h2 class="text-2xl font-semibold mb-3">Code Processing</h2>
+                <p class="text-sm text-gray-400">Paste your code below for optimization, debugging, or explanation.</p>
+            </div>
+            
+            <div class="editor-container">
+                <div class="code-area">
+                    <div class="code-header">
+                        <span class="text-sm font-medium">Input Code</span>
+                        <div class="flex gap-2">
+                            <button class="feature-button clear-btn" title="Clear">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <button class="feature-button copy-input-btn" title="Copy">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="codeInput" class="code-textarea" placeholder="Enter your code here..."></textarea>
+                </div>
+                
+                <div class="code-area">
+                    <div class="code-header">
+                        <span class="text-sm font-medium">Result</span>
+                        <div class="flex gap-2">
+                            <button class="feature-button copy-output-btn" title="Copy to Clipboard">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="feature-button download-btn" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="output" class="code-textarea">Results will appear here...</div>
+                </div>
+            </div>
+            
+            <div class="p-5 flex justify-center gap-4">
+                <button class="btn-primary" id="processBtn">
+                    <i class="fas fa-magic"></i>
+                    <span>Optimize</span>
+                </button>
+                <button class="btn-primary" id="debugBtn">
+                    <i class="fas fa-bug"></i>
+                    <span>Debug</span>
+                </button>
+                <button class="btn-primary" id="explainBtn">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Explain</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-6 mb-10">
+            <div class="glass-card p-5 text-center">
+                <i class="fas fa-bolt text-yellow-400 text-3xl mb-3"></i>
+                <h3 class="font-medium mb-2">Performance Boost</h3>
+                <p class="text-sm text-gray-400">Enhance code speed</p>
+            </div>
+            <div class="glass-card p-5 text-center">
+                <i class="fas fa-code-branch text-blue-400 text-3xl mb-3"></i>
+                <h3 class="font-medium mb-2">Clean Code</h3>
+                <p class="text-sm text-gray-400">Improve readability</p>
+            </div>
+            <div class="glass-card p-5 text-center">
+                <i class="fas fa-shield-alt text-green-400 text-3xl mb-3"></i>
+                <h3 class="font-medium mb-2">Bug Fix</h3>
+                <p class="text-sm text-gray-400">Detect and resolve issues</p>
+            </div>
+        </div>
+        
+        <footer class="footer">
+            <p>BypassLab © 2025 • Powered by Advanced AI</p>
+        </footer>
+    </div>
+    <script>
+const codeInput = document.getElementById('codeInput');
+const processBtn = document.getElementById('processBtn');
+const debugBtn = document.getElementById('debugBtn');
+const explainBtn = document.getElementById('explainBtn');
+const output = document.getElementById('output');
+const apiKey = localStorage.getItem('apiKey');
+const username = localStorage.getItem('username') || 'Guest';
+
+if (!apiKey || !apiKey.startsWith('sk-')) {
+    window.location.href = '/';
+    output.textContent = 'Error: Valid ChatGPT OpenAI Key required.';
+}
+
+document.querySelector('header p').textContent += ` | Welcome, ${username}`;
+
+const languagePills = document.querySelectorAll('.language-pill');
+languagePills.forEach(pill => {
+    pill.addEventListener('click', () => {
+        languagePills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+    });
+});
+
+function highlightSyntax(code, lang) {
+    let highlighted = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    if (lang === 'javascript') {
+        highlighted = highlighted.replace(/\b(function|return|const|let|var|if|else|for|while|try|catch|finally|throw|new)\b/g, '<span class="keyword">$1</span>')
+                                .replace(/"([^"]*)"|'([^']*)'/g, '<span class="string">"$1$2"</span>')
+                                .replace(/\/\/.*$/gm, '<span class="comment">$&</span>')
+                                .replace(/\b\d+(\.\d+)?\b/g, '<span class="number">$&</span>')
+                                .replace(/[+\-*/=<>!&|]/g, '<span class="operator">$&</span>')
+                                .replace(/\b\w+(?=\s*\()/g, '<span class="function">$&</span>');
+    } else if (lang === 'python') {
+        highlighted = highlighted.replace(/\b(def|return|if|else|elif|for|while|in|try|except|finally|raise|class)\b/g, '<span class="keyword">$1</span>')
+                                .replace(/"([^"]*)"|'([^']*)'/g, '<span class="string">"$1$2"</span>')
+                                .replace(/#.*$/gm, '<span class="comment">$&</span>')
+                                .replace(/\b\d+(\.\d+)?\b/g, '<span class="number">$&</span>')
+                                .replace(/[+\-*/=<>!&|]/g, '<span class="operator">$&</span>')
+                                .replace(/\b\w+(?=\s*\()/g, '<span class="function">$&</span>');
+    } else if (lang === 'lua') {
+        highlighted = highlighted.replace(/\b(function|return|local|if|then|else|for|while|do|end|repeat|until)\b/g, '<span class="keyword">$1</span>')
+                                .replace(/"([^"]*)"|'([^']*)'/g, '<span class="string">"$1$2"</span>')
+                                .replace(/--.*$/gm, '<span class="comment">$&</span>')
+                                .replace(/\b\d+(\.\d+)?\b/g, '<span class="number">$&</span>')
+                                .replace(/[+\-*/=<>!&|]/g, '<span class="operator">$&</span>')
+                                .replace(/\b\w+(?=\s*\()/g, '<span class="function">$&</span>');
+    } else if (lang === 'ruby') {
+        highlighted = highlighted.replace(/\b(def|return|if|else|elsif|for|while|do|end|class|module)\b/g, '<span class="keyword">$1</span>')
+                                .replace(/"([^"]*)"|'([^']*)'/g, '<span class="string">"$1$2"</span>')
+                                .replace(/#.*$/gm, '<span class="comment">$&</span>')
+                                .replace(/\b\d+(\.\d+)?\b/g, '<span class="number">$&</span>')
+                                .replace(/[+\-*/=<>!&|]/g, '<span class="operator">$&</span>')
+                                .replace(/\b\w+(?=\s*\()/g, '<span class="function">$&</span>');
+    } else if (lang === 'go') {
+        highlighted = highlighted.replace(/\b(func|return|if|else|for|while|switch|case|default|var|const)\b/g, '<span class="keyword">$1</span>')
+                                .replace(/"([^"]*)"|'([^']*)'/g, '<span class="string">"$1$2"</span>')
+                                .replace(/\/\/.*$/gm, '<span class="comment">$&</span>')
+                                .replace(/\b\d+(\.\d+)?\b/g, '<span class="number">$&</span>')
+                                .replace(/[+\-*/=<>!&|]/g, '<span class="operator">$&</span>')
+                                .replace(/\b\w+(?=\s*\()/g, '<span class="function">$&</span>');
+    }
+    return highlighted;
+}
+
+async function processCode(action) {
+    if (!codeInput.value.trim()) {
+        output.innerHTML = 'Error: Please enter some code to process';
+        return;
+    }
+
+    output.innerHTML = 'Processing... <span class="pulsing-dot"></span>';
+    const lang = document.querySelector('.language-pill.active').dataset.lang;
+    const code = codeInput.value;
+
+    try {
+        const response = await fetch('https://api.openai.com/v1/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'text-davinci-003',
+                prompt: `${action} this ${lang} code:\n${code}`,
+                max_tokens: 1000,
+                temperature: 0.3
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('API request failed');
+        }
+
+        const data = await response.json();
+        const result = data.choices[0].text.trim();
+        output.innerHTML = highlightSyntax(result, lang);
+    } catch (error) {
+        output.textContent = 'Error: Processing failed. Check your API key or try again.';
+    }
+}
+
+processBtn.addEventListener('click', () => processCode('Optimize'));
+debugBtn.addEventListener('click', () => processCode('Debug'));
+explainBtn.addEventListener('click', () => processCode('Explain'));
+
+const copyButtons = document.querySelectorAll('.fa-copy');
+copyButtons.forEach(button => {
+    button.parentElement.addEventListener('click', () => {
+        const textToCopy = button.closest('.code-area').querySelector('.code-textarea').textContent;
+        navigator.clipboard.writeText(textToCopy);
+        button.parentElement.setAttribute('title', 'Copied!');
+        setTimeout(() => button.parentElement.setAttribute('title', button.parentElement.dataset.originalTitle || 'Copy'), 1000);
+    });
+});
+
+document.querySelector('.clear-btn').addEventListener('click', () => {
+    codeInput.value = '';
+    output.innerHTML = 'Results will appear here...';
+});
+
+document.querySelector('.download-btn').addEventListener('click', () => {
+    const text = output.textContent;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `processed_${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+copyButtons.forEach(btn => btn.parentElement.dataset.originalTitle = btn.parentElement.getAttribute('title'));
+    </script>
+</body>
+</html>
