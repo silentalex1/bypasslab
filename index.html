@@ -3,95 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Extract and install Chrome Extensions effortlessly with ChromeXtractor Pro">
-    <meta name="keywords" content="crx, chrome, extension, extract, install, source code">
-    <meta name="author" content="realalexdev">
-    <title>ChromeXtractor Pro</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">
+    <title>Bypass Lab AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="wrapper">
-        <header>
-            <div class="logo">
-                <img src="logo.png" alt="ChromeXtractor Pro Logo" height="90">
+    <div class="logo">Bypass Lab AI</div>
+    
+    <div class="card" id="card">
+        <div class="front">
+            <h2 class="card-title">Welcome Back</h2>
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </span>
+                <input type="text" id="username" placeholder="Username" required>
             </div>
-            <h1>ChromeXtractor Pro</h1>
-            <p>Master Chrome Extensions with Ease</p>
-            <div class="header-cta">
-                <button class="btn cta-btn" id="getStartedBtn">Get Started</button>
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </span>
+                <input type="password" id="password" placeholder="Password" required>
             </div>
-        </header>
-
-        <main>
-            <section class="tool-section" id="toolSection">
-                <div class="card extract-container">
-                    <h2>Extract Source Code</h2>
-                    <div class="drop-zone" id="dropZone">
-                        <p>Drag & Drop .CRX File or Click to Upload</p>
-                        <input type="file" id="fileInput" accept=".crx">
-                    </div>
-                    <a href="#" class="btn download-btn" id="downloadSourceBtn">Download Source</a>
-                    <p class="status-message" id="extractStatus"></p>
-                </div>
-
-                <div class="card install-container">
-                    <h2>Install Extension</h2>
-                    <input type="text" id="extensionUrl" placeholder="Enter Chrome Extension URL">
-                    <button class="btn action-btn" id="installBtn">Install Now</button>
-                    <p class="status-message" id="installStatus"></p>
-                </div>
-            </section>
-
-            <section class="features-section">
-                <h2>Unleash the Power of ChromeXtractor Pro</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="icon">📦</div>
-                        <h3>Effortless Extraction</h3>
-                        <p>Unpack .CRX files to view source code instantly.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">⚡</div>
-                        <h3>Smart Installation</h3>
-                        <p>Install extensions directly with one click.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">🔒</div>
-                        <h3>Secure Processing</h3>
-                        <p>All operations are local, ensuring your privacy.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">🛠️</div>
-                        <h3>Built for Developers</h3>
-                        <p>Analyze and debug extension code easily.</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <p>© 2025 ChromeXtractor Pro. All Rights Reserved.</p>
-            <div class="footer-links">
-                <a href="#">About</a>
-                <a href="#">Contact</a>
-                <a href="#">Terms of Use</a>
-                <a href="#">Privacy Policy</a>
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                    </svg>
+                </span>
+                <input type="text" id="chatgptKey" placeholder="ChatGPT OpenAI Key" required>
+                <div class="error-message" id="chatgptKeyError">Please enter a valid ChatGPT OpenAI Key</div>
             </div>
-        </footer>
-    </div>
-
-    <div class="modal" id="permissionModal">
-        <div class="modal-content">
-            <h2>Permission Required</h2>
-            <p>Allow ChromeXtractor Pro to download and install this extension?</p>
-            <div class="modal-buttons">
-                <button class="modal-btn allow" id="allowBtn">Allow</button>
-                <button class="modal-btn deny" id="denyBtn">Deny</button>
+            <button class="btn" id="loginBtn">Log In</button>
+            <div class="toggle-btn" id="signupToggle">Don't have an account? Sign Up</div>
+        </div>
+        
+        <div class="back">
+            <h2 class="card-title">Create Account</h2>
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </span>
+                <input type="text" id="newUsername" placeholder="Username" required>
             </div>
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </span>
+                <input type="password" id="newPassword" placeholder="Password" required>
+            </div>
+            <div class="input-group">
+                <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+                    </svg>
+                </span>
+                <input type="text" id="newChatgptKey" placeholder="ChatGPT OpenAI Key" required>
+                <div class="error-message" id="newChatgptKeyError">Please enter a valid ChatGPT OpenAI Key</div>
+            </div>
+            <button class="btn" id="signupBtn">Sign Up</button>
+            <div class="toggle-btn" id="loginToggle">Already have an account? Log In</div>
         </div>
     </div>
+    
+    <div class="footer">
+        © 2025 Bypass Lab AI. All rights reserved.
+    </div>
 
-    <script type="text/javascript" src="js/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
