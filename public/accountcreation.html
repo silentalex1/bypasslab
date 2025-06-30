@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=480, initial-scale=1.0">
+  <title>Bat Prox - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-bg">
+  <div class="auth-container">
+    <div class="bat-prox-heading" style="margin-bottom:24px;">Bat Prox</div>
+    <div class="auth-form">
+      <div class="auth-inputs">
+        <input type="text" id="login-username" class="editable-text" placeholder="Username">
+        <input type="password" id="login-password" class="editable-text" placeholder="Password">
+      </div>
+      <div class="auth-buttons">
+        <button id="login-btn" class="btn-go">Login</button>
+        <button id="register-btn" class="btn-go">Register</button>
+      </div>
+      <div id="login-msg" class="auth-msg"></div>
+    </div>
+  </div>
+  <script>
+    function setToken(token) {
+      localStorage.setItem("batprox_token", token);
+    }
+    document.getElementById("login-btn").onclick = async function () {
+      const username = document.getElementById("login-username").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+      const msg = document.getElementById("login-msg");
+      msg.textContent = "";
+      if (!username || !password) {
+        msg.textContent = "Username and password required.";
+        return;
+      }
+      try {
+        const r = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+        if (r.status !== 200) {
+          msg.textContent = "Invalid login.";
+          return;
+        }
+        const d = await r.json();
+        setToken(d.token);
+        window.location.href = "index.html";
+      } catch {
+        msg.textContent = "Network error.";
+      }
+    };
+    document.getElementById("register-btn").onclick = async function () {
+      const username = document.getElementById("login-username").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+      const msg = document.getElementById("login-msg");
+      msg.textContent = "";
+      if (!username || !password) {
+        msg.textContent = "Username and password required.";
+        return;
+      }
+      try {
+        const r = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+        if (r.status === 409) {
+          msg.textContent = "Username taken.";
+          return;
+        }
+        if (r.status !== 200) {
+          msg.textContent = "Registration error.";
+          return;
+        }
+        const d = await r.json();
+        setToken(d.token);
+        window.location.href = "index.html";
+      } catch {
+        msg.textContent = "Network error.";
+      }
+    };
+  </script>
+</body>
+</html>
