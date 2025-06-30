@@ -1,0 +1,11 @@
+{
+  "name": "bat-prox",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2"
+  }
+}

@@ -1,0 +1,126 @@
+body {
+  background: linear-gradient(to bottom, #000033, #000000 70%, #000080);
+  color: white;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  font-family: 'Oswald', sans-serif;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background: #111;
+  padding-top: 20px;
+  color: white;
+  display: none;
+  box-shadow: 0 0 10px #000a;
+  z-index: 999;
+}
+
+.sidebar-close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+}
+
+.bat-prox-heading {
+  font-size: 2.2em;
+  font-weight: bold;
+  margin-bottom: 18px;
+  margin-top: 10vh;
+  display: flex;
+  align-items: center;
+  letter-spacing: 2px;
+}
+
+.bat-text, .prox-text {
+  color: #fff;
+  margin-right: 5px;
+}
+
+.cool-typing-box {
+  width: 320px;
+  height: 60px;
+  background: rgba(255,255,255,0.12);
+  border: 2px solid white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  z-index: 2;
+  margin-bottom: 10px;
+}
+
+.cool-typing-box:focus-within {
+  width: 350px;
+}
+
+.editable-text {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  width: 100%;
+  outline: none;
+  text-align: center;
+}
+
+.btn-go {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  padding: 12px 36px;
+  font-size: 1.1em;
+  font-family: 'Oswald', sans-serif;
+  background: #2b73ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 24px 0 #05080a40;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-go:hover {
+  background: #1749ab;
+}
+
+.random-font-description {
+  font-size: 1em;
+  margin-top: 14px;
+  color: #b0b9e6;
+}
+
+.timer {
+  font-size: 1em;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.version-text {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  color: white;
+  font-size: 1.5em;
+  opacity: 0.8;
+}
+
+#particles-js {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: -1;
+}
