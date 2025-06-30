@@ -23,42 +23,60 @@ body {
   padding-left: 25vw;
 }
 .bat-prox-heading {
-  font-size: 2.2em;
+  font-size: 2.4em;
   font-weight: bold;
   letter-spacing: 2px;
 }
 .auth-form {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 8px;
+  gap: 42px;
+  background: rgba(255,255,255,0.07);
+  padding: 38px 32px 32px 32px;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #0004;
 }
 .auth-inputs {
   display: flex;
   flex-direction: column;
-  margin-left: 80px;
+  min-width: 240px;
+}
+.auth-label {
+  color: #b0b9e6;
+  font-size: 1em;
+  margin-bottom: 4px;
+  margin-top: 12px;
+  letter-spacing: 1px;
+  font-weight: 500;
 }
 .auth-inputs .editable-text {
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   width: 220px;
   padding: 13px;
   background: rgba(255,255,255,0.12);
   border: 2px solid white;
   border-radius: 10px;
   color: #fff;
-  font-size: 1.25em;
+  font-size: 1.2em;
   outline: none;
   text-align: left;
   transition: border 0.2s;
 }
+.auth-inputs .editable-text:focus {
+  border: 2px solid #2b73ff;
+  background: rgba(43,115,255,0.07);
+}
 .auth-buttons {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  margin-right: 40px;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+  margin-right: 20px;
 }
 .btn-go {
-  padding: 12px 32px;
+  padding: 12px 36px;
   font-size: 1.1em;
   font-family: 'Oswald', sans-serif;
   background: #2b73ff;
@@ -73,11 +91,13 @@ body {
   background: #1749ab;
 }
 .auth-msg {
-  margin-top: 8px;
-  margin-left: 10px;
+  margin-top: 18px;
+  margin-left: 0;
   color: #b0b9e6;
-  font-size: 1em;
+  font-size: 1.1em;
   min-height: 1.5em;
+  width: 100%;
+  text-align: left;
 }
 @media (max-width: 900px) {
   .auth-container {
@@ -87,7 +107,12 @@ body {
   .auth-form {
     flex-direction: column;
     align-items: center;
+    gap: 10px;
   }
-  .auth-buttons { margin-bottom: 18px; }
-  .auth-inputs { margin-left: 0; }
+  .auth-buttons {
+    flex-direction: row;
+    margin-top: 18px;
+    margin-right: 0;
+    gap: 12px;
+  }
 }
