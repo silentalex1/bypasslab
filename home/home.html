@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=480, initial-scale=1.0">
+  <title>Bat Prox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-close" onclick="closeSidebar()">X</div>
+    <p>Settings (coming soon)</p>
+    <button id="logout-btn" class="btn-go">Logout</button>
+  </div>
+  <div class="bat-prox-heading">
+    <span class="bat-text">Bat</span> <span class="prox-text">Prox</span>
+  </div>
+  <div class="cool-typing-box">
+    <input type="text" id="urlbar" class="editable-text" value="Access Freely"
+      onfocus="if(this.value=='Access Freely')this.value='';"
+      onblur="if(this.value=='') this.value='Access Freely';">
+  </div>
+  <button id="go" class="btn-go">Unblock</button>
+  <div class="random-font-description" id="randomDescription">Enter a website URL and hit Unblock</div>
+  <div class="timer" id="timer"></div>
+  <div class="version-text">v1</div>
+  <div id="particles-js"></div>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
