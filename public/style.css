@@ -10,55 +10,70 @@ body {
   height: 100vh;
   font-family: 'Oswald', sans-serif;
 }
-.auth-bg {
-  background: radial-gradient(circle at center, #000033, #000000 70%, #000080);
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background: #111;
+  padding-top: 20px;
+  color: white;
+  display: none;
+  box-shadow: 0 0 10px #000a;
+  z-index: 999;
 }
-.auth-container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding-left: 25vw;
+.sidebar-close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
 }
 .bat-prox-heading {
   font-size: 2.2em;
   font-weight: bold;
-  letter-spacing: 2px;
-}
-.auth-form {
+  margin-bottom: 18px;
+  margin-top: 8vh;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  margin-top: 8px;
+  letter-spacing: 2px;
+  justify-content: center;
 }
-.auth-inputs {
-  display: flex;
-  flex-direction: column;
-  margin-left: 80px;
+.bat-text, .prox-text {
+  color: #fff;
+  margin-right: 5px;
 }
-.auth-inputs .editable-text {
-  margin-bottom: 12px;
-  width: 220px;
-  padding: 13px;
+.cool-typing-box {
+  width: 320px;
+  height: 60px;
   background: rgba(255,255,255,0.12);
   border: 2px solid white;
   border-radius: 10px;
-  color: #fff;
-  font-size: 1.25em;
-  outline: none;
-  text-align: left;
-  transition: border 0.2s;
-}
-.auth-buttons {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  margin-right: 40px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  z-index: 2;
+  margin-bottom: 10px;
+}
+.cool-typing-box:focus-within {
+  width: 350px;
+}
+.editable-text {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5em;
+  width: 100%;
+  outline: none;
+  text-align: center;
 }
 .btn-go {
-  padding: 12px 32px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  padding: 12px 36px;
   font-size: 1.1em;
   font-family: 'Oswald', sans-serif;
   background: #2b73ff;
@@ -72,22 +87,29 @@ body {
 .btn-go:hover {
   background: #1749ab;
 }
-.auth-msg {
-  margin-top: 8px;
-  margin-left: 10px;
-  color: #b0b9e6;
+.random-font-description {
   font-size: 1em;
-  min-height: 1.5em;
+  margin-top: 14px;
+  color: #b0b9e6;
 }
-@media (max-width: 900px) {
-  .auth-container {
-    padding-left: 0;
-    align-items: center;
-  }
-  .auth-form {
-    flex-direction: column;
-    align-items: center;
-  }
-  .auth-buttons { margin-bottom: 18px; }
-  .auth-inputs { margin-left: 0; }
+.timer {
+  font-size: 1em;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #fff;
+}
+.version-text {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  color: white;
+  font-size: 1.5em;
+  opacity: 0.8;
+}
+#particles-js {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  z-index: -1;
 }
