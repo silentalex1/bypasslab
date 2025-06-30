@@ -25,6 +25,7 @@ const loginBtn = document.getElementById("login-btn");
 const registerBtn = document.getElementById("register-btn");
 const toRegisterBtn = document.getElementById("to-register-btn");
 const toLoginBtn = document.getElementById("to-login-btn");
+
 if (toRegisterBtn) {
   toRegisterBtn.onclick = function () {
     card.classList.add("flipped");
