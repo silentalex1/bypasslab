@@ -1,59 +1,89 @@
 body {
-  background: linear-gradient(to bottom, #000033, #000000 70%, #000080);
+  background: linear-gradient(to bottom, #000033 0%, #000000 80%, #000080 100%);
   color: white;
   margin: 0;
   padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   height: 100vh;
   font-family: 'Oswald', sans-serif;
+  overflow: hidden;
 }
-.auth-bg {
-  background: radial-gradient(circle at center, #000033, #000000 70%, #000080);
-}
-.auth-container {
+.centerer {
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  padding-left: 25vw;
+  justify-content: flex-start;
 }
 .bat-prox-heading {
-  font-size: 2.4em;
+  position: absolute;
+  left: 80px;
+  top: 90px;
+  font-size: 2.8em;
   font-weight: bold;
   letter-spacing: 2px;
+  color: #fff;
+  z-index: 2;
+  user-select: none;
 }
-.auth-form {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  margin-top: 8px;
-  gap: 42px;
-  background: rgba(255,255,255,0.07);
-  padding: 38px 32px 32px 32px;
-  border-radius: 18px;
-  box-shadow: 0 4px 32px #0004;
+.auth-card {
+  width: 420px;
+  height: 350px;
+  background: none;
+  margin-left: 80px;
+  margin-top: 160px;
+  perspective: 1200px;
 }
-.auth-inputs {
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(.4,2,.4,1);
+  transform-style: preserve-3d;
+}
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(25,25,40,0.90);
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #0007;
   display: flex;
   flex-direction: column;
-  min-width: 240px;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+.card-front {
+  z-index: 2;
+}
+.card-back {
+  transform: rotateY(180deg);
+  z-index: 3;
+}
+.auth-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+.field-labels {
+  width: 80%;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
 }
 .auth-label {
   color: #b0b9e6;
-  font-size: 1em;
-  margin-bottom: 4px;
-  margin-top: 12px;
+  font-size: 1.04em;
+  margin-bottom: 2px;
+  margin-top: 18px;
   letter-spacing: 1px;
   font-weight: 500;
 }
-.auth-inputs .editable-text {
-  margin-bottom: 6px;
-  width: 220px;
+.editable-text {
+  margin-bottom: 4px;
+  width: 100%;
   padding: 13px;
   background: rgba(255,255,255,0.12);
   border: 2px solid white;
@@ -64,55 +94,71 @@ body {
   text-align: left;
   transition: border 0.2s;
 }
-.auth-inputs .editable-text:focus {
+.editable-text:focus {
   border: 2px solid #2b73ff;
   background: rgba(43,115,255,0.07);
 }
 .auth-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  width: 80%;
+  justify-content: space-between;
+  margin-top: 22px;
+  margin-bottom: 0;
   gap: 16px;
-  margin-top: 28px;
-  margin-right: 20px;
 }
 .btn-go {
-  padding: 12px 36px;
+  padding: 12px 38px;
   font-size: 1.1em;
   font-family: 'Oswald', sans-serif;
   background: #2b73ff;
   color: #fff;
   border: none;
   border-radius: 8px;
-  box-shadow: 0 2px 24px 0 #05080a40;
+  box-shadow: 0 2px 24px 0 #05080a30;
   cursor: pointer;
   transition: background 0.2s;
 }
 .btn-go:hover {
   background: #1749ab;
 }
-.auth-msg {
-  margin-top: 18px;
-  margin-left: 0;
+.btn-secondary {
+  background: #242c4d;
   color: #b0b9e6;
-  font-size: 1.1em;
+  border: 1.5px solid #4459a2;
+}
+.btn-secondary:hover {
+  background: #232a41;
+}
+.auth-msg {
+  margin-top: 16px;
+  width: 80%;
+  color: #b0b9e6;
+  font-size: 1.08em;
   min-height: 1.5em;
-  width: 100%;
   text-align: left;
 }
+
 @media (max-width: 900px) {
-  .auth-container {
-    padding-left: 0;
+  .centerer {
     align-items: center;
+    justify-content: flex-start;
   }
-  .auth-form {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+  .bat-prox-heading {
+    position: static;
+    margin-top: 48px;
+    margin-bottom: 0;
+    left: unset;
+    top: unset;
+    text-align: center;
+    width: 100vw;
   }
-  .auth-buttons {
-    flex-direction: row;
-    margin-top: 18px;
-    margin-right: 0;
-    gap: 12px;
+  .auth-card {
+    margin-left: 0;
+    margin-top: 100px;
+    width: 96vw;
+    min-width: 270px;
+    max-width: 420px;
+    height: 340px;
   }
 }
