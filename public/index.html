@@ -9,19 +9,22 @@
 </head>
 <body class="auth-bg">
   <div class="auth-container">
-    <div class="bat-prox-heading" style="margin-bottom:24px;">Bat Prox</div>
-    <div class="auth-form">
+    <div class="bat-prox-heading" style="margin-bottom:32px;">Bat Prox</div>
+    <form class="auth-form" id="auth-form" autocomplete="off">
       <div class="auth-inputs">
-        <input type="text" id="login-username" class="editable-text" placeholder="Username">
-        <input type="password" id="login-password" class="editable-text" placeholder="Password">
+        <label for="login-username" class="auth-label">Username</label>
+        <input type="text" id="login-username" class="editable-text" placeholder="Enter your username" autocomplete="username" required>
+        <label for="login-password" class="auth-label">Password</label>
+        <input type="password" id="login-password" class="editable-text" placeholder="Enter your password" autocomplete="current-password" required>
       </div>
       <div class="auth-buttons">
-        <button id="login-btn" class="btn-go">Login</button>
-        <button id="register-btn" class="btn-go">Register</button>
+        <button type="button" id="login-btn" class="btn-go">Login</button>
+        <button type="button" id="register-btn" class="btn-go">Register</button>
       </div>
       <div id="login-msg" class="auth-msg"></div>
-    </div>
+    </form>
   </div>
   <script src="script.js"></script>
 </body>
 </html>
+
