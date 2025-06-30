@@ -5,7 +5,7 @@ function removeToken() {
   localStorage.removeItem("batprox_token");
 }
 function checkAuth() {
-  if (!getToken()) window.location.href = "accountcreation.html";
+  if (!getToken()) window.location.href = "/login/accountcreation.html";
 }
 checkAuth();
 document.getElementById("go").onclick = runService;
@@ -20,7 +20,7 @@ function runService() {
   }
   const token = getToken();
   if (!token) {
-    window.location.href = "accountcreation.html";
+    window.location.href = "/login/accountcreation.html";
     return;
   }
   window.open(`/api/proxy?url=${encodeURIComponent(url)}&token=${encodeURIComponent(token)}`, '_blank');
@@ -32,6 +32,10 @@ document.getElementById("urlbar").addEventListener("contextmenu", function (e) {
 function closeSidebar() {
   document.getElementById("sidebar").style.display = "none";
 }
+document.getElementById("logout-btn").onclick = function () {
+  removeToken();
+  window.location.href = "/login/accountcreation.html";
+};
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
