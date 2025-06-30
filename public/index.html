@@ -3,28 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=480, initial-scale=1.0">
-  <title>Bat Prox - Account</title>
+  <title>Bat Prox - Login</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="auth-bg">
-  <div class="auth-container">
-    <div class="bat-prox-heading" style="margin-bottom:32px;">Bat Prox</div>
-    <form class="auth-form" id="auth-form" autocomplete="off">
-      <div class="auth-inputs">
-        <label for="login-username" class="auth-label">Username</label>
-        <input type="text" id="login-username" class="editable-text" placeholder="Enter your username" autocomplete="username" required>
-        <label for="login-password" class="auth-label">Password</label>
-        <input type="password" id="login-password" class="editable-text" placeholder="Enter your password" autocomplete="current-password" required>
+  <div class="centerer">
+    <div class="bat-prox-heading">Bat Prox</div>
+    <div class="auth-card" id="auth-card">
+      <div class="card-inner" id="card-inner">
+        <div class="card-front">
+          <div class="field-labels">
+            <label for="login-username" class="auth-label">Username</label>
+            <input type="text" id="login-username" class="editable-text" placeholder="Enter your username" autocomplete="username">
+            <label for="login-password" class="auth-label">Password</label>
+            <input type="password" id="login-password" class="editable-text" placeholder="Enter your password" autocomplete="current-password">
+          </div>
+          <div class="auth-buttons">
+            <button id="login-btn" class="btn-go">Login</button>
+            <button id="to-register-btn" class="btn-go btn-secondary">Create Account</button>
+          </div>
+          <div id="login-msg" class="auth-msg"></div>
+        </div>
+        <div class="card-back">
+          <div class="field-labels">
+            <label for="register-username" class="auth-label">Username</label>
+            <input type="text" id="register-username" class="editable-text" placeholder="Choose a username" autocomplete="username">
+            <label for="register-password" class="auth-label">Password</label>
+            <input type="password" id="register-password" class="editable-text" placeholder="Choose a password" autocomplete="new-password">
+          </div>
+          <div class="auth-buttons">
+            <button id="register-btn" class="btn-go">Register</button>
+            <button id="to-login-btn" class="btn-go btn-secondary">Back to Login</button>
+          </div>
+          <div id="register-msg" class="auth-msg"></div>
+        </div>
       </div>
-      <div class="auth-buttons">
-        <button type="button" id="login-btn" class="btn-go">Login</button>
-        <button type="button" id="register-btn" class="btn-go">Register</button>
-      </div>
-      <div id="login-msg" class="auth-msg"></div>
-    </form>
+    </div>
   </div>
   <script src="script.js"></script>
 </body>
 </html>
-
